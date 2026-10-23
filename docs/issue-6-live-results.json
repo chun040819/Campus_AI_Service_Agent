@@ -1,0 +1,263 @@
+[
+  {
+    "session": "A",
+    "question": "學生每日額度是多少？",
+    "status": 200,
+    "reply": "根據虛構校園平台的模擬政策（文章編號 H04），學生每日最多可發送 **20 次**請求。\n\n（註：此為教學示範的模擬資料，不代表真實帳戶餘額。）",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "query": "每日額度",
+          "audience": "student"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H03",
+                "topic": "429 錯誤",
+                "audience": "all",
+                "keywords": "429 速率 額度",
+                "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                "request_limit": null,
+                "limit_window": null
+              },
+              {
+                "article_id": "H04",
+                "topic": "學生每日額度",
+                "audience": "student",
+                "keywords": "學生 每日 額度",
+                "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 20,
+                "limit_window": "day"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "session": "B",
+    "question": "教師每日額度是多少？",
+    "status": 200,
+    "reply": "根據模擬政策資料（文章 ID：H05），教師每日最多可有 **40 次請求**。\n\n此為模擬教學示範資料，不代表真實帳戶餘額。如果您需要計算目前的剩餘次數，請提供您今天已經使用的請求次數，我將為您進行試算。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "audience": "teacher",
+          "query": "額度"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H03",
+                "topic": "429 錯誤",
+                "audience": "all",
+                "keywords": "429 速率 額度",
+                "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                "request_limit": null,
+                "limit_window": null
+              },
+              {
+                "article_id": "H05",
+                "topic": "教師每日額度",
+                "audience": "teacher",
+                "keywords": "教師 每日 額度",
+                "content": "模擬政策：教師每日最多 40 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 40,
+                "limit_window": "day"
+              },
+              {
+                "article_id": "H07",
+                "topic": "登入與帳號權限",
+                "audience": "all",
+                "keywords": "登入 帳號 權限 學生 教師",
+                "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                "request_limit": null,
+                "limit_window": null
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "session": "A",
+    "question": "那如果今天已用了8次，還剩多少？",
+    "status": 200,
+    "reply": "根據模擬試算結果（資料來源：政策文章 H04）：\n\n* **項目**：學生每日額度\n* **期間**：day（每日）\n* **上限**：20 次\n* **已用次數**：8 次\n* **剩餘次數 (remaining)**：12 次\n* **目前可發送量 (sendable_now)**：12 次\n* **請求次數單位**：requests\n\n（註：此為教學示範的模擬試算結果，非帳戶實際餘額，不保證後續請求成功，亦不預測重設時間。）",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "source": "help_article",
+              "article_id": "H04",
+              "window": "day",
+              "name": "學生每日額度",
+              "maximum": 20,
+              "used": 8
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "source": "help_article",
+                "article_id": "H04",
+                "window": "day",
+                "name": "學生每日額度",
+                "maximum": 20,
+                "used": 8,
+                "remaining": 12,
+                "over_limit": false
+              }
+            ],
+            "sendable_now": 12,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "session": "B",
+    "question": "那如果今天已用了8次，還剩多少？",
+    "status": 200,
+    "reply": "以下為依據模擬政策文章（ID: `H05`）計算的剩餘請求次數（模擬試算）：\n\n* **項目名稱**：教師每日額度\n* **上限**：40 次/日\n* **已用次數**：8 次\n* **期間**：day（每日）\n* **來源**：help_article (H05)\n* **剩餘次數 (remaining)**：32\n* **目前可送出次數 (sendable_now)**：32\n* **請求次數單位**：requests\n\n此為模擬教學示範試算，不是帳戶實際餘額，也不保證後續請求一定成功、不預測重設時間，且每日剩餘不等於每分鐘可送量。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "name": "教師每日額度",
+              "article_id": "H05",
+              "used": 8,
+              "window": "day",
+              "source": "help_article",
+              "maximum": 40
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "name": "教師每日額度",
+                "article_id": "H05",
+                "used": 8,
+                "window": "day",
+                "source": "help_article",
+                "maximum": 40,
+                "remaining": 32,
+                "over_limit": false
+              }
+            ],
+            "sendable_now": 32,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "session": "A",
+    "action": "reset",
+    "status": 200,
+    "result": {
+      "ok": true
+    }
+  },
+  {
+    "session": "A",
+    "question": "那每日額度是多少？",
+    "status": 404,
+    "detail": "對話不存在，請清除後重新開始。"
+  },
+  {
+    "session": "A-new",
+    "question": "那每日額度是多少？",
+    "status": 200,
+    "reply": "根據模擬政策資料（文章 ID：H04、H05），每日額度依您的身分而有所不同：\n\n* **學生**：每日最多 **20 次**請求（政策文章：H04，模擬資料）。\n* **教師**：每日最多 **40 次**請求（政策文章：H05，模擬資料）。\n\n請告訴我您的身分（學生或教師）以及您今天已經使用過的次數，我可以幫您透過系統計算剩餘的請求次數！",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "query": "額度"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H03",
+                "topic": "429 錯誤",
+                "audience": "all",
+                "keywords": "429 速率 額度",
+                "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                "request_limit": null,
+                "limit_window": null
+              },
+              {
+                "article_id": "H04",
+                "topic": "學生每日額度",
+                "audience": "student",
+                "keywords": "學生 每日 額度",
+                "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 20,
+                "limit_window": "day"
+              },
+              {
+                "article_id": "H05",
+                "topic": "教師每日額度",
+                "audience": "teacher",
+                "keywords": "教師 每日 額度",
+                "content": "模擬政策：教師每日最多 40 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 40,
+                "limit_window": "day"
+              },
+              {
+                "article_id": "H07",
+                "topic": "登入與帳號權限",
+                "audience": "all",
+                "keywords": "登入 帳號 權限 學生 教師",
+                "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                "request_limit": null,
+                "limit_window": null
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "session": "B",
+    "question": "剛剛算完還剩多少？",
+    "status": 200,
+    "reply": "根據剛才的計算結果，剩餘次數如下：\n\n* **項目名稱**：教師每日額度\n* **上限**：40 次/日\n* **已用次數**：8 次\n* **期間**：day（每日）\n* **來源**：help_article (H05)\n* **剩餘次數 (remaining)**：32\n* **目前可送出次數 (sendable_now)**：32\n* **請求次數單位**：requests\n\n此為模擬教學示範試算，不代表帳戶實際餘額，不保證後續請求成功，亦不預測重設時間。",
+    "tool_traces": []
+  }
+]

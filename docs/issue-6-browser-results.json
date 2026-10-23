@@ -1,0 +1,23 @@
+{
+  "reset": {
+    "status": 200,
+    "result": {
+      "ok": true
+    }
+  },
+  "nextRequest": {
+    "session_id": null,
+    "message": "那是多少次？"
+  },
+  "newConversation": [
+    "那是多少次？【受控測試】沒有前文，請先說明查詢主題。"
+  ],
+  "trace": "工具執行軌跡\n\n顯示每輪實際工具名稱、參數與結果。\n\n第 1 輪\n\n本輪未執行工具",
+  "checks": [
+    "multi-turn messages and per-turn trace retained before reset",
+    "sending state disables input, send and reset",
+    "reset API succeeds and removes UI turns/traces",
+    "next request starts without old Session ID",
+    "new conversation asks for context"
+  ]
+}

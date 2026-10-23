@@ -57,3 +57,5 @@ Issue #4 的獨立驗算、受控 API 與真實模型計算 trace 見 [計算驗
 `get_human_support` 接受必填 `reason`（login/permission/api/outage/other），只讀 H08 指引，不接受自由文字或聯絡個資。回傳 article_id、instructions、channel_configured=false、handoff_completed=false、simulated=true。使用者需向平台管理者確認聯絡方式，並整理錯誤碼、發生時間及去除機密的重現步驟。無效參數、缺少 H08、讀取失敗分別回 INVALID_ARGUMENT、NOT_FOUND、INTERNAL_ERROR。
 
 Issue #5 的驗證見 [人工支援驗證](docs/issue-5-validation.md)。
+
+Issue #6 的多輪指代、Session 隔離、重設與瀏覽器執行中狀態驗證見 [Session 驗證](docs/issue-6-validation.md)。

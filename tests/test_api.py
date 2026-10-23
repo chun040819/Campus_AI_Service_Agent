@@ -239,3 +239,49 @@ def test_human_support_chat_results_and_errors(tmp_path: Path, case: str, code: 
         else:
             assert trace["result"]["data"]["handoff_completed"] is False
         assert calls == (1 if case == "failure" else 2)
+
+
+def test_multiturn_tool_context_is_isolated_and_reset_discards_history(tmp_path: Path) -> None:
+    from uuid import UUID
+
+    def model(request: httpx.Request) -> httpx.Response:
+        messages = json.loads(request.content)["messages"][1:]
+        first_question = messages[0]["content"]
+        if messages[-1]["role"] == "tool":
+            result = json.loads(messages[-1]["content"])
+            article = result["data"]["articles"][0]
+            return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": article["article_id"] + "：" + article["content"]}}]})
+        if len(messages) == 1 and first_question in ("學生每日額度", "教師每日額度"):
+            answer: dict[str, Any] = {"role": "assistant", "tool_calls": [{"id": "quota", "type": "function", "function": {"name": "search_help_articles", "arguments": json.dumps({"query": first_question})}}]}
+        elif len(messages) == 1:
+            answer = {"role": "assistant", "content": "請先說明學生或教師及查詢主題。"}
+        else:
+            assert messages[-1]["content"] == "那是多少次？"
+            results = [json.loads(m["content"])["data"]["articles"][0] for m in messages if m["role"] == "tool"]
+            assert len(results) == 1
+            article = results[0]
+            expected = "H04" if first_question == "學生每日額度" else "H05"
+            assert article["article_id"] == expected
+            assert article["request_limit"] == (20 if expected == "H04" else 40)
+            assert all(("教師" if expected == "H04" else "學生") not in m.get("content", "") for m in messages if m["role"] in ("user", "assistant") and m.get("content"))
+            answer = {"role": "assistant", "content": f"{expected} 模擬每日 {article['request_limit']} 次"}
+        return httpx.Response(200, json={"choices": [{"message": answer}]})
+
+    with TestClient(create_app(database=tmp_path / "sessions.db", transport=httpx.MockTransport(model), api_key="test", model="test")) as client:
+        a = client.post("/api/chat", json={"message": "學生每日額度"}).json()
+        b = client.post("/api/chat", json={"message": "教師每日額度"}).json()
+        assert UUID(a["session_id"]) != UUID(b["session_id"])
+        for initial, expected in [(a, "H04 模擬每日 20 次"), (b, "H05 模擬每日 40 次")]:
+            followup = client.post("/api/chat", json={"session_id": initial["session_id"], "message": "那是多少次？"}).json()
+            assert followup["session_id"] == initial["session_id"]
+            assert followup["reply"] == expected
+            assert followup["tool_traces"] == []
+            assert len(initial["tool_traces"]) == 1
+        assert client.post("/api/reset", json={"session_id": a["session_id"]}).json() == {"ok": True}
+        assert client.post("/api/chat", json={"session_id": a["session_id"], "message": "那是多少次？"}).status_code == 404
+        fresh = client.post("/api/chat", json={"message": "那是多少次？"}).json()
+        assert fresh["session_id"] not in (a["session_id"], b["session_id"])
+        assert fresh["reply"] == "請先說明學生或教師及查詢主題。"
+        assert fresh["tool_traces"] == []
+        assert client.post("/api/chat", json={"session_id": b["session_id"], "message": "那是多少次？"}).json()["reply"] == "H05 模擬每日 40 次"
+        assert client.post("/api/reset", json={"session_id": a["session_id"]}).status_code == 200
