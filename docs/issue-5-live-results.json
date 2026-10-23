@@ -1,0 +1,95 @@
+[
+  {
+    "question": "一直無法登入，想找人工協助。",
+    "status": 502,
+    "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+    "tool_traces": [],
+    "error": "MODEL_FAILURE"
+  },
+  {
+    "question": "問題沒解決，聯絡維運。",
+    "status": 502,
+    "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+    "tool_traces": [],
+    "error": "MODEL_FAILURE"
+  },
+  {
+    "question": "請幫我轉真人客服。",
+    "status": 502,
+    "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+    "tool_traces": [],
+    "error": "MODEL_FAILURE"
+  },
+  {
+    "question": "一直無法登入，想找人工協助。",
+    "status": 200,
+    "reply": "（H08 模擬人工支援指引）\n\n人工支援管道尚未配置，請向平台管理者確認聯絡方式。\n\n* 管道配置狀態：尚未配置（`channel_configured: false`）\n* 真人交接狀態：尚未完成交接（`handoff_completed: false`）\n* 注意事項：本示範不建立工單、不傳送訊息、不代表真人已接手。建議您可先自行整理錯誤碼、發生時間與去除個資及金鑰的重現步驟，以利後續向管理者回報。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "get_human_support",
+        "arguments": {
+          "reason": "login"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "article_id": "H08",
+            "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+            "channel_configured": false,
+            "handoff_completed": false,
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "問題沒解決，聯絡維運。",
+    "status": 200,
+    "reply": "【模擬人工支援指引 H08】（模擬資料）\n\n* **管道配置狀態**：`channel_configured: false`（管道尚未配置，請向平台管理者確認聯絡方式）\n* **交接狀態**：`handoff_completed: false`（本示範不建立工單、不傳送訊息，尚未完成真人交接）\n* **建議準備資料**：可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "get_human_support",
+        "arguments": {
+          "reason": "outage"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "article_id": "H08",
+            "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+            "channel_configured": false,
+            "handoff_completed": false,
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "請幫我轉真人客服。",
+    "status": 200,
+    "reply": "根據虛構校園 AI 平台（模擬資料）的人工支援指引（H08）：\n\n* **人工支援狀態**：管道尚未配置（`channel_configured: false`），請向平台管理者確認聯絡方式。\n* **準備事項**：建議您可先整理錯誤碼、發生時間，以及去除個資與金鑰的重現步驟。\n* **注意事項**：本模擬平台不建立工單、不傳送訊息，尚未完成真人交接（`handoff_completed: false`）。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "get_human_support",
+        "arguments": {
+          "reason": "other"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "article_id": "H08",
+            "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+            "channel_configured": false,
+            "handoff_completed": false,
+            "simulated": true
+          }
+        }
+      }
+    ]
+  }
+]

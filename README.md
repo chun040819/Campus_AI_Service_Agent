@@ -1,6 +1,6 @@
 # Campus AI Service Agent
 
-虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前提供查資訊、公開模擬故障紀錄與請求次數試算；轉真人工具尚未開放。
+虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前提供查資訊、公開模擬故障紀錄、請求次數試算與人工支援指引。人工管道尚未配置，不建立工單、不傳送訊息或完成真人交接。
 
 ## 本機啟動
 
@@ -26,7 +26,7 @@ npm --prefix frontend run dev
 - `GET /api/health`：服務存活，不代表模型可用。
 - `POST /api/chat`：`{"session_id":null,"message":"429 代表什麼？"}`；回傳 `session_id`、`reply`、本輪 `tool_traces`。後續帶入同一 ID 以延續對話。沒有工具呼叫則 trace 為空。
 - `POST /api/reset`：`{"session_id":"後端核發的 ID"}`；清除後端歷史，重複清除仍成功。
-- ToolRegistry 公開 `search_help_articles`、`search_issue_records` 與 `calculate_remaining_requests`。查詢採固定字面子字串比對；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
+- ToolRegistry 公開 `search_help_articles`、`search_issue_records` 、`calculate_remaining_requests` 與 `get_human_support`。查詢採固定字面子字串比對；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
 - 模型每輪最多 6 次呼叫，每次最多 8 個工具呼叫；失敗回 502 並保留已產生的 trace，本輪不加入歷史。每個 session 最多約 200 則訊息、服務最多 100 個對話；清除可釋放。
 - 單程序記憶體 Session，重啟即清空；請使用一個 worker。本機示範未提供身分認證，僅綁定 loopback，勿直接公開部署。所有聊天共用序列鎖，適合教學規模。
 
@@ -53,3 +53,7 @@ Gemini 的相容端點為 `https://generativelanguage.googleapis.com/v1beta/open
 Issue #3 的自動測試、真實模型 API 與 Chrome 聊天驗收見 [紀錄查詢驗證](docs/issue-3-validation.md)。
 
 Issue #4 的獨立驗算、受控 API 與真實模型計算 trace 見 [計算驗證](docs/issue-4-validation.md)。
+
+`get_human_support` 接受必填 `reason`（login/permission/api/outage/other），只讀 H08 指引，不接受自由文字或聯絡個資。回傳 article_id、instructions、channel_configured=false、handoff_completed=false、simulated=true。使用者需向平台管理者確認聯絡方式，並整理錯誤碼、發生時間及去除機密的重現步驟。無效參數、缺少 H08、讀取失敗分別回 INVALID_ARGUMENT、NOT_FOUND、INTERNAL_ERROR。
+
+Issue #5 的驗證見 [人工支援驗證](docs/issue-5-validation.md)。

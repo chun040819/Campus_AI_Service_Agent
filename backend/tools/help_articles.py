@@ -31,4 +31,7 @@ def create_registry(database: Path) -> ToolRegistry:
     from backend.tools.calculation import register_calculation
 
     register_calculation(registry, database)
+    from backend.tools.human_support import register_human_support
+
+    register_human_support(registry, database)
     return registry

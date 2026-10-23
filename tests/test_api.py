@@ -30,7 +30,7 @@ def test_chat_executes_tool_and_sends_result_to_model(tmp_path: Path) -> None:
         assert body["tool_traces"][0]["result"]["data"]["articles"][0]["article_id"] == "H03"
         assert body["tool_traces"][0]["arguments"] == {"query": "429"}
         assert "模擬" in body["reply"]
-        assert {t["function"]["name"] for t in requests[0]["tools"]} == {"search_help_articles", "search_issue_records", "calculate_remaining_requests"}
+        assert {t["function"]["name"] for t in requests[0]["tools"]} == {"search_help_articles", "search_issue_records", "calculate_remaining_requests", "get_human_support"}
         assert client.post("/api/reset", json={"session_id": body["session_id"]}).status_code == 200
         assert client.post("/api/chat", json={"session_id": body["session_id"], "message": "繼續"}).status_code == 404
 
@@ -195,3 +195,47 @@ def test_calculation_errors_reach_chat_trace(tmp_path: Path, case: str, code: st
         assert response.json()["tool_traces"][0]["result"]["error"]["code"] == code
         assert "data" not in response.json()["tool_traces"][0]["result"]
         assert calls == (1 if case == "unavailable" else 2)
+
+
+@pytest.mark.parametrize("case,code,status", [("normal", "", 200), ("invalid", "INVALID_ARGUMENT", 200), ("missing", "NOT_FOUND", 200), ("failure", "INTERNAL_ERROR", 502)])
+def test_human_support_chat_results_and_errors(tmp_path: Path, case: str, code: str, status: int) -> None:
+    import sqlite3
+
+    db = tmp_path / "support.db"
+    calls = 0
+    arguments = {"reason": "invalid" if case == "invalid" else "login"}
+
+    def model(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        body = json.loads(request.content)
+        if calls == 1:
+            message: dict[str, Any] = {"role": "assistant", "tool_calls": [{"id": "h1", "type": "function", "function": {"name": "get_human_support", "arguments": json.dumps(arguments)}}]}
+        else:
+            result = json.loads(body["messages"][-1]["content"])
+            if code:
+                assert result["error"]["code"] == code
+            else:
+                assert result["data"]["article_id"] == "H08"
+                assert result["data"]["handoff_completed"] is False
+                assert result["data"]["channel_configured"] is False
+                assert result["data"]["simulated"] is True
+            message = {"role": "assistant", "content": "模擬服務尚未完成真人交接。"}
+        return httpx.Response(200, json={"choices": [{"message": message}]})
+
+    with TestClient(create_app(database=db, transport=httpx.MockTransport(model), api_key="test", model="test")) as client:
+        if case == "missing":
+            with sqlite3.connect(db) as conn:
+                conn.execute("DELETE FROM help_articles WHERE article_id = ?", ("H08",))
+        if case == "failure":
+            db.unlink()
+        response = client.post("/api/chat", json={"message": "一直無法登入，想找人工"})
+        assert response.status_code == status
+        trace = response.json()["tool_traces"][0]
+        assert trace["tool_name"] == "get_human_support"
+        assert trace["arguments"] == arguments
+        if code:
+            assert trace["result"]["error"]["code"] == code
+        else:
+            assert trace["result"]["data"]["handoff_completed"] is False
+        assert calls == (1 if case == "failure" else 2)
