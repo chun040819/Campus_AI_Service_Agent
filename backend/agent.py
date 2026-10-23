@@ -46,6 +46,8 @@ async def run_agent(client: httpx.AsyncClient, model: str, registry: ToolRegistr
                     arguments = raw
                     result = error("INVALID_ARGUMENT", "工具參數不是有效 JSON")
                 traces.append({"step": step, "tool_name": name, "arguments": arguments, "result": result})
+                if not result["ok"] and result["error"]["code"] == "INTERNAL_ERROR":
+                    raise AgentFailure("資訊查詢暫時無法使用，請稍後重試。", traces)
                 messages.append({"role": "tool", "tool_call_id": call["id"], "content": json.dumps(result, ensure_ascii=False)})
     except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError):
         raise AgentFailure("模型服務暫時無法完成回覆，請稍後重試。", traces) from None

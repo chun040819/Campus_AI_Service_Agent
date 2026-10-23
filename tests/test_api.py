@@ -82,3 +82,22 @@ def test_unconfigured_backend_is_safe(tmp_path: Path) -> None:
     with TestClient(create_app(database=tmp_path / "demo.db", api_key="", model="")) as client:
         assert client.get("/api/health").status_code == 200
         assert client.post("/api/chat", json={"message": "429"}).status_code == 503
+
+
+def test_tool_internal_error_stops_model_loop(tmp_path: Path) -> None:
+    database = tmp_path / "demo.db"
+    count = 0
+
+    def model(request: httpx.Request) -> httpx.Response:
+        nonlocal count
+        count += 1
+        if count > 1:
+            return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "content": "錯誤後繼續"}}]})
+        return httpx.Response(200, json={"choices": [{"message": {"role": "assistant", "tool_calls": [{"id": "1", "type": "function", "function": {"name": "search_help_articles", "arguments": '{"query":"429"}'}}]}}]})
+
+    with TestClient(create_app(database=database, transport=httpx.MockTransport(model), api_key="test", model="test")) as client:
+        database.unlink()
+        response = client.post("/api/chat", json={"message": "429"})
+        assert response.status_code == 502
+        assert count == 1
+        assert response.json()["tool_traces"][0]["result"]["error"]["code"] == "INTERNAL_ERROR"
