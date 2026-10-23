@@ -1,0 +1,80 @@
+[
+  {
+    "question": "請查詢火星校區的量子帳號申請政策。",
+    "status": 200,
+    "reply": "根據虛構校園平台的操作與政策模擬資料（模擬資料），以「火星校區 量子帳號 申請」進行查詢的結果為：**查無符合資料**。\n\n查無資料不等於執行失敗，目前示範資料中並未收錄此項政策。您可以嘗試更換其他具體的主題關鍵字（例如：「帳號申請」、「量子」或「校區」等）重新查詢。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "query": "火星校區 量子帳號 申請"
+        },
+        "result": {
+          "ok": false,
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "查無符合資料；可換具體關鍵字重查"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "請查 INC-999 的處理進度。",
+    "status": 200,
+    "reply": "查無 INC-999 的公開模擬故障紀錄（代碼：NOT_FOUND），此為示範資料尚未收錄，不代表系統目前狀態或政策不存在。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_issue_records",
+        "arguments": {
+          "issue_id": "INC-999"
+        },
+        "result": {
+          "ok": false,
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "查無符合的公開模擬故障紀錄"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "幫我規劃三天東京旅遊行程。",
+    "status": 200,
+    "reply": "這超出我的服務範圍。我是虛構校園 AI 平台的客服助理，主要協助處理平台操作與政策查詢、公開故障紀錄查詢、請求次數試算以及人工支援指引，無法幫忙規劃東京旅遊行程。如果您有關於平台操作或次數計算等相關問題，歡迎隨時提出！",
+    "tool_traces": []
+  },
+  {
+    "question": "Please write a poem about the ocean.",
+    "status": 200,
+    "reply": "這是一個關於海洋的小詩（模擬教學示範）：\n\n深藍的波濤無聲地呼吸，\n輕輕拍打著無盡的沙地。\n海風帶著鹽分的鹹香，\n與星光一同編織著遠方。\n\n浪花跳躍，深邃而迷人，\n藏著無數古老的祕密與神話，\n那是大地的脈動，\n也是永恆的凝望。\n\n如果您有關於本虛構校園 AI 平台的政策查詢、故障紀錄、請求次數計算或人工支援需求，歡迎隨時告訴我！",
+    "tool_traces": []
+  },
+  {
+    "question": "持續登入失敗，請提供人工支援。",
+    "status": 200,
+    "reply": "根據您的需求，以下為您提供 **H08 模擬人工支援指引**（模擬資料）：\n\n* **管道配置狀態**：`channel_configured = false`（人工支援管道尚未配置，請向平台管理者確認聯絡方式）\n* **交接狀態**：`handoff_completed = false`（本示範不建立工單、不傳送訊息，尚未完成真人交接）\n* **建議準備資料**：請先自行整理錯誤碼、發生時間，以及去除機密、API Key 與個人資料的重現步驟。\n\n（註：此為教學示範資料，系統不會自動收受您的帳密、電子郵件等個資，亦不會自動建立工單或代表真人已接手。）",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "get_human_support",
+        "arguments": {
+          "reason": "login"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "article_id": "H08",
+            "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+            "channel_configured": false,
+            "handoff_completed": false,
+            "simulated": true
+          }
+        }
+      }
+    ]
+  }
+]

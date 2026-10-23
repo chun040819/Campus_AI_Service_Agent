@@ -285,3 +285,62 @@ def test_multiturn_tool_context_is_isolated_and_reset_discards_history(tmp_path:
         assert fresh["tool_traces"] == []
         assert client.post("/api/chat", json={"session_id": b["session_id"], "message": "那是多少次？"}).json()["reply"] == "H05 模擬每日 40 次"
         assert client.post("/api/reset", json={"session_id": a["session_id"]}).status_code == 200
+
+
+@pytest.mark.parametrize("payload", [None, {"choices": [{"message": None}]}])
+def test_malformed_model_response_stops_safely(tmp_path: Path, payload: Any) -> None:
+    def model(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=payload) if payload is not None else httpx.Response(200, content="null")
+
+    with TestClient(create_app(database=tmp_path / "malformed.db", transport=httpx.MockTransport(model), api_key="secret", model="test")) as client:
+        response = client.post("/api/chat", json={"message": "429"})
+        assert response.status_code == 502
+        assert response.json()["tool_traces"] == []
+        assert "稍後重試" in response.json()["reply"]
+        assert "secret" not in response.text
+
+
+@pytest.mark.parametrize("failure", ["http", "timeout", "limit", "tool"])
+def test_failed_turn_retains_trace_and_retry_uses_only_committed_history(tmp_path: Path, failure: str) -> None:
+    database = tmp_path / "retry.db"
+    requests: list[dict[str, Any]] = []
+    phase = "seed"
+    calls = 0
+
+    def model(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        body = json.loads(request.content)
+        requests.append(body)
+        if phase in ("seed", "retry"):
+            answer: dict[str, Any] = {"role": "assistant", "content": "請提供查詢主題。"}
+        else:
+            calls += 1
+            if calls > 1 and failure == "http":
+                return httpx.Response(503, json={"error": "private-provider-detail"})
+            if calls > 1 and failure == "timeout":
+                raise httpx.ReadTimeout("private-provider-detail", request=request)
+            answer = {"role": "assistant", "tool_calls": [{"id": str(calls), "type": "function", "function": {"name": "search_help_articles", "arguments": '{"query":"429"}'}}]}
+        return httpx.Response(200, json={"choices": [{"message": answer}]})
+
+    with TestClient(create_app(database=database, transport=httpx.MockTransport(model), api_key="test", model="test")) as client:
+        seed = client.post("/api/chat", json={"message": "你好"}).json()
+        phase = "failure"
+        if failure == "tool":
+            database.unlink()
+        response = client.post("/api/chat", json={"session_id": seed["session_id"], "message": "失敗的問題"})
+        assert response.status_code == 502
+        body = response.json()
+        assert body["session_id"] == seed["session_id"]
+        assert len(body["tool_traces"]) == (6 if failure == "limit" else 1)
+        assert calls == {"http": 2, "timeout": 2, "limit": 6, "tool": 1}[failure]
+        assert "private-provider-detail" not in response.text
+        assert "成功" not in body["reply"]
+        assert body["tool_traces"][0]["result"]["ok"] is (failure != "tool")
+        phase = "retry"
+        retry = client.post("/api/chat", json={"session_id": seed["session_id"], "message": "重試問題"})
+        assert retry.status_code == 200
+        messages = requests[-1]["messages"][1:]
+        assert [message["role"] for message in messages] == ["user", "assistant", "user"]
+        assert messages[0]["content"] == "你好"
+        assert messages[-1]["content"] == "重試問題"
+        assert "失敗的問題" not in json.dumps(messages, ensure_ascii=False)

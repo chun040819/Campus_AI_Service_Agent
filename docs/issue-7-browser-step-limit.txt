@@ -1,0 +1,186 @@
+## Latest page snapshot
+uid=1_0 RootWebArea "校園 AI 平台客服" url="http://127.0.0.1:5173/"
+  uid=1_1 main
+    uid=1_2 "CAMPUS AI · SERVICE DESK"
+    uid=1_3 heading "校園 AI 平台客服" level="1"
+    uid=1_4 "虛構平台・教學示範資料，不代表真實學校政策或服務狀態。"
+    uid=1_5 region "客服對話"
+      uid=1_6 heading "資訊諮詢" level="2"
+      uid=1_7 button "清除對話"
+      uid=1_13 generic live="polite" relevant="additions text"
+        uid=3_0 "測試模型失敗"
+        uid=3_1 "模型服務暫時無法完成回覆，請稍後重試。"
+        uid=4_0 "測試呼叫上限"
+        uid=4_1 "已達模型呼叫上限，請縮小問題後重試。"
+      uid=4_2 alert atomic live="assertive" relevant="additions text"
+        uid=4_3 "模型未完成本輪回覆，對話歷史未新增此輪；可重試或清除。"
+      uid=1_14 form
+        uid=1_15 "你的問題"
+        uid=1_16 textbox "你的問題" multiline required
+        uid=1_17 button "送出問題" disableable disabled
+      uid=1_18 heading "工具執行軌跡" level="2"
+      uid=1_19 "顯示每輪實際工具名稱、參數與結果。"
+      uid=3_4 heading "第 1 輪" level="3"
+      uid=3_5 DisclosureTriangle "search_help_articles · 步驟 1" expandable expanded
+      uid=3_6 heading "參數" level="4"
+      uid=3_7 "{
+  "query": "429"
+}"
+      uid=3_8 heading "結果" level="4"
+      uid=3_9 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_4 heading "第 2 輪" level="3"
+      uid=4_5 DisclosureTriangle "search_help_articles · 步驟 1" expandable expanded
+      uid=4_6 heading "參數" level="4"
+      uid=4_7 "{
+  "query": "429"
+}"
+      uid=4_8 heading "結果" level="4"
+      uid=4_9 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_10 DisclosureTriangle "search_help_articles · 步驟 2" expandable expanded
+      uid=4_11 heading "參數" level="4"
+      uid=4_12 "{
+  "query": "429"
+}"
+      uid=4_13 heading "結果" level="4"
+      uid=4_14 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_15 DisclosureTriangle "search_help_articles · 步驟 3" expandable expanded
+      uid=4_16 heading "參數" level="4"
+      uid=4_17 "{
+  "query": "429"
+}"
+      uid=4_18 heading "結果" level="4"
+      uid=4_19 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_20 DisclosureTriangle "search_help_articles · 步驟 4" expandable expanded
+      uid=4_21 heading "參數" level="4"
+      uid=4_22 "{
+  "query": "429"
+}"
+      uid=4_23 heading "結果" level="4"
+      uid=4_24 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_25 DisclosureTriangle "search_help_articles · 步驟 5" expandable expanded
+      uid=4_26 heading "參數" level="4"
+      uid=4_27 "{
+  "query": "429"
+}"
+      uid=4_28 heading "結果" level="4"
+      uid=4_29 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+      uid=4_30 DisclosureTriangle "search_help_articles · 步驟 6" expandable expanded
+      uid=4_31 heading "參數" level="4"
+      uid=4_32 "{
+  "query": "429"
+}"
+      uid=4_33 heading "結果" level="4"
+      uid=4_34 "{
+  "ok": true,
+  "data": {
+    "articles": [
+      {
+        "article_id": "H03",
+        "topic": "429 錯誤",
+        "audience": "all",
+        "keywords": "429 速率 額度",
+        "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "request_limit": null,
+        "limit_window": null
+      }
+    ],
+    "simulated": true
+  }
+}"
+
