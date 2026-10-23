@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from backend.agent import AgentFailure, run_agent
-from backend.database import import_articles
+from backend.database import import_articles, import_records
 from backend.tools.help_articles import create_registry
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -42,6 +42,7 @@ def create_app(*, database: Path | None = None, transport: httpx.AsyncBaseTransp
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         import_articles(ROOT / "data/help_articles.csv", db)
+        import_records(ROOT / "data/issue_records.csv", db)
         async with httpx.AsyncClient(base_url=os.getenv("LLM_BASE_URL", "https://api.openai.com/v1/").rstrip("/") + "/", headers={"Authorization": f"Bearer {key}"}, timeout=30, transport=transport) as client:
             app.state.llm = client
             yield

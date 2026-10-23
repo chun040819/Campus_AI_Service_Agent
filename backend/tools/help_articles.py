@@ -25,4 +25,7 @@ def create_registry(database: Path) -> ToolRegistry:
             "limit": {"type": "integer", "minimum": 1, "maximum": 8, "default": 5},
         }, "required": ["query"], "additionalProperties": False,
     }, search, "查資訊"))
+    from backend.tools.issue_records import register_records
+
+    register_records(registry, database)
     return registry

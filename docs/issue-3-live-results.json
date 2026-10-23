@@ -1,0 +1,272 @@
+[
+  {
+    "question": "查 INC-001，請告訴我處理階段、是否可用、受影響請求數及最後更新時間。",
+    "reply": "以下為 INC-001 的公開故障紀錄查詢結果（模擬資料）：\n\n* **處理階段（status）：** 調查中（investigating）\n* **服務可用性（available）：** 於該紀錄最後更新時不可用（false）\n* **受影響請求數（affected_requests）：** 12 次\n* **最後更新時間（updated_at）：** 2026-10-20T08:00:00Z",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_issue_records",
+        "arguments": {
+          "issue_id": "INC-001"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "records": [
+              {
+                "issue_id": "INC-001",
+                "title": "學生登入失敗",
+                "service": "login",
+                "symptom": "學生登入顯示暫時無法登入",
+                "status": "investigating",
+                "available": false,
+                "affected_requests": 12,
+                "workaround": "無已知方法；稍後重試並保留錯誤碼",
+                "updated_at": "2026-10-20T08:00:00Z"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "之前有類似 429 的故障嗎？請保留可用狀態、受影響次數和更新時間。",
+    "reply": "以下為查詢到的 429 相關模擬故障紀錄：\n\n* **紀錄編號**：INC-004\n* **最後更新時間**：2026-10-19T08:00:00Z\n* **可用狀態（available）**：true（該紀錄最後更新時服務為可用狀態）\n* **受影響次數（affected_requests）**：30 次\n\n（模擬資料）",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_issue_records",
+        "arguments": {
+          "query": "429"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "records": [
+              {
+                "issue_id": "INC-004",
+                "title": "429 速率限制誤觸",
+                "service": "api",
+                "symptom": "低於限制仍收到 429",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 30,
+                "workaround": "已修正；再次發生時記錄錯誤內容，勿密集重試",
+                "updated_at": "2026-10-19T08:00:00Z"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "列出最近15筆公開模擬故障紀錄。",
+    "reply": "以下為最近的公開模擬故障紀錄（模擬資料）：\n\n1. **INC-001**\n   - 最後更新時間：2026-10-20T08:00:00Z\n   - 處理階段：investigating\n   - 服務可用性：false\n   - 受影響請求數：12 次\n\n2. **INC-002**\n   - 最後更新時間：2026-10-20T07:00:00Z\n   - 處理階段：identified\n   - 服務可用性：false\n   - 受影響請求數：6 次\n\n3. **INC-003**\n   - 最後更新時間：2026-10-20T06:00:00Z\n   - 處理階段：monitoring\n   - 服務可用性：true\n   - 受影響請求數：8 次\n\n4. **INC-004**\n   - 最後更新時間：2026-10-19T08:00:00Z\n   - 處理階段：resolved\n   - 服務可用性：true\n   - 受影響請求數：30 次\n\n5. **INC-005**\n   - 最後更新時間：2026-10-19T07:00:00Z\n   - 處理階段：investigating\n   - 服務可用性：false\n   - 受影響請求數：15 次\n\n6. **INC-006**\n   - 最後更新時間：2026-10-19T06:00:00Z\n   - 處理階段：monitoring\n   - 服務可用性：true\n   - 受影響請求數：9 次\n\n7. **INC-007**\n   - 最後更新時間：2026-10-18T08:00:00Z\n   - 處理階段：resolved\n   - 服務可用性：true\n   - 受影響請求數：22 次\n\n8. **INC-008**\n   - 最後更新時間：2026-10-18T07:00:00Z\n   - 處理階段：identified\n   - 服務可用性：false\n   - 受影響請求數：40 次\n\n9. **INC-009**\n   - 最後更新時間：2026-10-18T06:00:00Z\n   - 處理階段：resolved\n   - 服務可用性：true\n   - 受影響請求數：3 次\n\n10. **INC-010**\n    - 最後更新時間：2026-10-17T08:00:00Z\n    - 處理階段：resolved\n    - 服務可用性：true\n    - 受影響請求數：18 次\n\n11. **INC-011**\n    - 最後更新時間：2026-10-17T07:00:00Z\n    - 處理階段：monitoring\n    - 服務可用性：true\n    - 受影響請求數：4 次\n\n12. **INC-012**\n    - 最後更新時間：2026-10-17T06:00:00Z\n    - 處理階段：identified\n    - 服務可用性：false\n    - 受影響請求數：11 次\n\n13. **INC-013**\n    - 最後更新時間：2026-10-16T08:00:00Z\n    - 處理階段：resolved\n    - 服務可用性：true\n    - 受影響請求數：7 次\n\n14. **INC-014**\n    - 最後更新時間：2026-10-16T07:00:00Z\n    - 處理階段：investigating\n    - 服務可用性：false\n    - 受影響請求數：5 次\n\n15. **INC-015**\n    - 最後更新時間：2026-10-16T06:00:00Z\n    - 處理階段：resolved\n    - 服務可用性：true\n    - 受影響請求數：10 次\n\n*(註：以上服務可用性為該紀錄最後更新時的狀態，不代表目前真實狀態。)*",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_issue_records",
+        "arguments": {
+          "limit": 15
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "records": [
+              {
+                "issue_id": "INC-001",
+                "title": "學生登入失敗",
+                "service": "login",
+                "symptom": "學生登入顯示暫時無法登入",
+                "status": "investigating",
+                "available": false,
+                "affected_requests": 12,
+                "workaround": "無已知方法；稍後重試並保留錯誤碼",
+                "updated_at": "2026-10-20T08:00:00Z"
+              },
+              {
+                "issue_id": "INC-002",
+                "title": "教師權限延遲",
+                "service": "permissions",
+                "symptom": "教師登入後未顯示應有權限",
+                "status": "identified",
+                "available": false,
+                "affected_requests": 6,
+                "workaround": "登出再登入；仍異常則依人工支援指引處理",
+                "updated_at": "2026-10-20T07:00:00Z"
+              },
+              {
+                "issue_id": "INC-003",
+                "title": "API Key 建立延遲",
+                "service": "api_keys",
+                "symptom": "建立 API Key 時頁面等待過久",
+                "status": "monitoring",
+                "available": true,
+                "affected_requests": 8,
+                "workaround": "先確認清單是否已建立，避免重複申請",
+                "updated_at": "2026-10-20T06:00:00Z"
+              },
+              {
+                "issue_id": "INC-004",
+                "title": "429 速率限制誤觸",
+                "service": "api",
+                "symptom": "低於限制仍收到 429",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 30,
+                "workaround": "已修正；再次發生時記錄錯誤內容，勿密集重試",
+                "updated_at": "2026-10-19T08:00:00Z"
+              },
+              {
+                "issue_id": "INC-005",
+                "title": "SDK 連線逾時",
+                "service": "api",
+                "symptom": "SDK 請求等待後逾時",
+                "status": "investigating",
+                "available": false,
+                "affected_requests": 15,
+                "workaround": "暫停連續重試，保留去除金鑰的錯誤訊息",
+                "updated_at": "2026-10-19T07:00:00Z"
+              },
+              {
+                "issue_id": "INC-006",
+                "title": "每日額度顯示延遲",
+                "service": "quota",
+                "symptom": "額度頁面顯示舊使用次數",
+                "status": "monitoring",
+                "available": true,
+                "affected_requests": 9,
+                "workaround": "重新整理頁面；不要將顯示延遲解讀為額度增加",
+                "updated_at": "2026-10-19T06:00:00Z"
+              },
+              {
+                "issue_id": "INC-007",
+                "title": "平台頁面無法載入",
+                "service": "web",
+                "symptom": "平台首頁顯示空白",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 22,
+                "workaround": "已修正；重新整理頁面",
+                "updated_at": "2026-10-18T08:00:00Z"
+              },
+              {
+                "issue_id": "INC-008",
+                "title": "API 回傳 503",
+                "service": "api",
+                "symptom": "API 請求回傳 503",
+                "status": "identified",
+                "available": false,
+                "affected_requests": 40,
+                "workaround": "暫停請求，稍後重試；無已知即時修復方法",
+                "updated_at": "2026-10-18T07:00:00Z"
+              },
+              {
+                "issue_id": "INC-009",
+                "title": "API Key 撤銷延遲",
+                "service": "api_keys",
+                "symptom": "撤銷後清單仍顯示舊狀態",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 3,
+                "workaround": "已修正；重新載入清單，勿分享或繼續使用已撤銷金鑰",
+                "updated_at": "2026-10-18T06:00:00Z"
+              },
+              {
+                "issue_id": "INC-010",
+                "title": "登入重新導向循環",
+                "service": "login",
+                "symptom": "登入頁面反覆重新導向",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 18,
+                "workaround": "已修正；關閉舊登入分頁後重試",
+                "updated_at": "2026-10-17T08:00:00Z"
+              },
+              {
+                "issue_id": "INC-011",
+                "title": "教師服務入口無法開啟",
+                "service": "web",
+                "symptom": "教師入口顯示載入失敗",
+                "status": "monitoring",
+                "available": true,
+                "affected_requests": 4,
+                "workaround": "重新整理後觀察；仍失敗則記錄發生時間",
+                "updated_at": "2026-10-17T07:00:00Z"
+              },
+              {
+                "issue_id": "INC-012",
+                "title": "使用次數重設延遲",
+                "service": "quota",
+                "symptom": "新統計日仍顯示前日次數",
+                "status": "identified",
+                "available": false,
+                "affected_requests": 11,
+                "workaround": "無已知方法；勿自行假定已恢復額度",
+                "updated_at": "2026-10-17T06:00:00Z"
+              },
+              {
+                "issue_id": "INC-013",
+                "title": "SDK 端點設定錯誤",
+                "service": "api",
+                "symptom": "SDK 使用錯誤端點而無法連線",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 7,
+                "workaround": "已修正示範設定；依 H02 核對設定，不猜測平台端點",
+                "updated_at": "2026-10-16T08:00:00Z"
+              },
+              {
+                "issue_id": "INC-014",
+                "title": "問題回報頁面異常",
+                "service": "support",
+                "symptom": "問題回報頁面無法送出",
+                "status": "investigating",
+                "available": false,
+                "affected_requests": 5,
+                "workaround": "保留去除個資的錯誤碼與重現步驟；人工管道尚未配置",
+                "updated_at": "2026-10-16T07:00:00Z"
+              },
+              {
+                "issue_id": "INC-015",
+                "title": "權限變更未同步",
+                "service": "permissions",
+                "symptom": "權限調整後仍顯示舊權限",
+                "status": "resolved",
+                "available": true,
+                "affected_requests": 10,
+                "workaround": "已修正；登出再登入",
+                "updated_at": "2026-10-16T06:00:00Z"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "查 INC-999，請不要改查其他紀錄。",
+    "reply": "查無符合編號 `INC-999` 的公開模擬故障紀錄。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_issue_records",
+        "arguments": {
+          "issue_id": "INC-999"
+        },
+        "result": {
+          "ok": false,
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "查無符合的公開模擬故障紀錄"
+          }
+        }
+      }
+    ]
+  }
+]

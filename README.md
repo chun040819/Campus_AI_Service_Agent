@@ -1,6 +1,6 @@
 # Campus AI Service Agent
 
-虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前完成 Issue #2 的查資訊流程；查紀錄、計算與轉真人工具尚未開放。
+虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前提供查資訊與公開模擬故障紀錄流程；計算與轉真人工具尚未開放。
 
 ## 本機啟動
 
@@ -19,16 +19,18 @@ npm --prefix frontend run dev
 
 只在後端 `.env` 設定 `LLM_BASE_URL`（含 `/v1/` 或供應商等價路徑）、`LLM_API_KEY`、`LLM_MODEL`。模型必須支援 OpenAI-compatible `/chat/completions` 工具呼叫；本專案直接透過 HTTP 呼叫，不使用關鍵字路由。`.env.example` 不含可用憑證；未設定模型時健康檢查仍可用，聊天回 503。請勿在聊天輸入金鑰，或將機密加入任何 `VITE_*` 變數。
 
-`DATABASE_PATH` 預設 `var/demo.db`，相對路徑以啟動目錄為準；建議從儲存庫根目錄啟動。啟動時驗證並重建 `data/help_articles.csv` 的 8 篇資訊，錯誤會指出檔案與列號。SQLite 僅留在後端並被 Git 忽略。`issue_records.csv` 留待後續查紀錄票實作。
+`DATABASE_PATH` 預設 `var/demo.db`，相對路徑以啟動目錄為準；建議從儲存庫根目錄啟動。啟動時驗證並重建 `data/help_articles.csv` 的 8 篇資訊，錯誤會指出檔案與列號。SQLite 僅留在後端並被 Git 忽略。同時驗證並重建 `data/issue_records.csv` 的至少 15 筆公開模擬紀錄；可用性與處理階段分開保存，受影響請求數單位為次。
 
 ## API 與限制
 
 - `GET /api/health`：服務存活，不代表模型可用。
 - `POST /api/chat`：`{"session_id":null,"message":"429 代表什麼？"}`；回傳 `session_id`、`reply`、本輪 `tool_traces`。後續帶入同一 ID 以延續對話。沒有工具呼叫則 trace 為空。
 - `POST /api/reset`：`{"session_id":"後端核發的 ID"}`；清除後端歷史，重複清除仍成功。
-- ToolRegistry 僅公開已實作的 `search_help_articles`，固定字面子字串查詢；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
+- ToolRegistry 公開 `search_help_articles` 與 `search_issue_records`，固定字面子字串查詢；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
 - 模型每輪最多 6 次呼叫，每次最多 8 個工具呼叫；失敗回 502 並保留已產生的 trace，本輪不加入歷史。每個 session 最多約 200 則訊息、服務最多 100 個對話；清除可釋放。
 - 單程序記憶體 Session，重啟即清空；請使用一個 worker。本機示範未提供身分認證，僅綁定 loopback，勿直接公開部署。所有聊天共用序列鎖，適合教學規模。
+
+`search_issue_records` 支援 query（title/service/symptom/workaround 字面比對）、issue_id（INC-三位數精確比對）、status（investigating/identified/monitoring/resolved），條件取交集；不提供條件時列最近 5 筆，limit 為 1–15。按更新時間降冪、ID 升冪排序。不可用是有效結果，查無為 NOT_FOUND；回覆保留模擬標示與最後更新時間，不表示目前真實狀態。
 
 ## 驗證
 

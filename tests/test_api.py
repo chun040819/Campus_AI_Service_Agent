@@ -29,7 +29,7 @@ def test_chat_executes_tool_and_sends_result_to_model(tmp_path: Path) -> None:
         assert body["tool_traces"][0]["result"]["data"]["articles"][0]["article_id"] == "H03"
         assert body["tool_traces"][0]["arguments"] == {"query": "429"}
         assert "模擬" in body["reply"]
-        assert len(requests[0]["tools"]) == 1
+        assert {t["function"]["name"] for t in requests[0]["tools"]} == {"search_help_articles", "search_issue_records"}
         assert client.post("/api/reset", json={"session_id": body["session_id"]}).status_code == 200
         assert client.post("/api/chat", json={"session_id": body["session_id"], "message": "繼續"}).status_code == 404
 
@@ -101,3 +101,29 @@ def test_tool_internal_error_stops_model_loop(tmp_path: Path) -> None:
         assert response.status_code == 502
         assert count == 1
         assert response.json()["tool_traces"][0]["result"]["error"]["code"] == "INTERNAL_ERROR"
+
+
+def test_record_chat_preserves_results_in_trace_and_model_context(tmp_path: Path) -> None:
+    for arguments, expected in [({"issue_id": "INC-001"}, "INC-001"), ({"issue_id": "INC-999"}, "NOT_FOUND"), ({"limit": 16}, "INVALID_ARGUMENT")]:
+        def model(request: httpx.Request) -> httpx.Response:
+            body = json.loads(request.content)
+            if body["messages"][-1]["role"] != "tool":
+                message: dict[str, Any] = {"role": "assistant", "tool_calls": [{"id": "r1", "type": "function", "function": {"name": "search_issue_records", "arguments": json.dumps(arguments)}}]}
+            else:
+                result = json.loads(body["messages"][-1]["content"])
+                if expected == "INC-001":
+                    assert result["data"]["records"][0]["available"] is False
+                else:
+                    assert result["error"]["code"] == expected
+                message = {"role": "assistant", "content": "模擬紀錄查詢結果。"}
+            return httpx.Response(200, json={"choices": [{"message": message}]})
+
+        with TestClient(create_app(database=tmp_path / "records.db", transport=httpx.MockTransport(model), api_key="test", model="test")) as client:
+            response = client.post("/api/chat", json={"message": "查公開故障"})
+            assert response.status_code == 200
+            trace = response.json()["tool_traces"][0]
+            assert trace["arguments"] == arguments
+            if expected == "INC-001":
+                assert trace["result"]["data"]["records"][0]["affected_requests"] == 12
+            else:
+                assert trace["result"]["error"]["code"] == expected
