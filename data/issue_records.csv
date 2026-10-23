@@ -1,0 +1,16 @@
+issue_id,title,service,symptom,status,available,affected_requests,workaround,updated_at
+INC-001,學生登入失敗,login,學生登入顯示暫時無法登入,investigating,false,12,無已知方法；稍後重試並保留錯誤碼,2026-10-20T08:00:00Z
+INC-002,教師權限延遲,permissions,教師登入後未顯示應有權限,identified,false,6,登出再登入；仍異常則依人工支援指引處理,2026-10-20T07:00:00Z
+INC-003,API Key 建立延遲,api_keys,建立 API Key 時頁面等待過久,monitoring,true,8,先確認清單是否已建立，避免重複申請,2026-10-20T06:00:00Z
+INC-004,429 速率限制誤觸,api,低於限制仍收到 429,resolved,true,30,已修正；再次發生時記錄錯誤內容，勿密集重試,2026-10-19T08:00:00Z
+INC-005,SDK 連線逾時,api,SDK 請求等待後逾時,investigating,false,15,暫停連續重試，保留去除金鑰的錯誤訊息,2026-10-19T07:00:00Z
+INC-006,每日額度顯示延遲,quota,額度頁面顯示舊使用次數,monitoring,true,9,重新整理頁面；不要將顯示延遲解讀為額度增加,2026-10-19T06:00:00Z
+INC-007,平台頁面無法載入,web,平台首頁顯示空白,resolved,true,22,已修正；重新整理頁面,2026-10-18T08:00:00Z
+INC-008,API 回傳 503,api,API 請求回傳 503,identified,false,40,暫停請求，稍後重試；無已知即時修復方法,2026-10-18T07:00:00Z
+INC-009,API Key 撤銷延遲,api_keys,撤銷後清單仍顯示舊狀態,resolved,true,3,已修正；重新載入清單，勿分享或繼續使用已撤銷金鑰,2026-10-18T06:00:00Z
+INC-010,登入重新導向循環,login,登入頁面反覆重新導向,resolved,true,18,已修正；關閉舊登入分頁後重試,2026-10-17T08:00:00Z
+INC-011,教師服務入口無法開啟,web,教師入口顯示載入失敗,monitoring,true,4,重新整理後觀察；仍失敗則記錄發生時間,2026-10-17T07:00:00Z
+INC-012,使用次數重設延遲,quota,新統計日仍顯示前日次數,identified,false,11,無已知方法；勿自行假定已恢復額度,2026-10-17T06:00:00Z
+INC-013,SDK 端點設定錯誤,api,SDK 使用錯誤端點而無法連線,resolved,true,7,已修正示範設定；依 H02 核對設定，不猜測平台端點,2026-10-16T08:00:00Z
+INC-014,問題回報頁面異常,support,問題回報頁面無法送出,investigating,false,5,保留去除個資的錯誤碼與重現步驟；人工管道尚未配置,2026-10-16T07:00:00Z
+INC-015,權限變更未同步,permissions,權限調整後仍顯示舊權限,resolved,true,10,已修正；登出再登入,2026-10-16T06:00:00Z
