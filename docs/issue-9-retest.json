@@ -1,0 +1,722 @@
+{
+  "started_at": "2026-10-23T12:37:23.272619+00:00",
+  "provider_host": "generativelanguage.googleapis.com",
+  "model": "gemini-3.5-flash-lite",
+  "cases_sha256": "006bf91e79a273a83d85a951d176aaf32da32cb9dca00f24ec8ecae64c87f92a",
+  "cases": [
+    {
+      "id": "Q01",
+      "category": "existing",
+      "question": "API Key 怎麼申請？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H01；模擬流程，不代建或索取金鑰",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據虛構校園平台的教學示範政策（模擬資料，文章代號 H01）：\n\nAPI Key 申請方式為：\n1. 登入平台後，前往 **API Key 管理頁面**。\n2. 選擇「建立」以產生金鑰，並請自行安全保存。\n3. 平台政策提醒：切勿將金鑰貼入聊天或公開程式碼中；若疑似外洩，請至管理頁面進行撤銷。\n4. 此流程為教學示範，客服無法代為建立或撤銷金鑰。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "API Key"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H01",
+                  "topic": "API Key 申請",
+                  "audience": "all",
+                  "keywords": "API Key 申請 撤銷",
+                  "content": "模擬平台：登入後於 API Key 管理頁選擇建立，建立後自行安全保存。不要將金鑰貼入聊天或公開程式碼；疑似外洩時於管理頁撤銷。此為示範流程，客服不代為建立或撤銷。",
+                  "request_limit": null,
+                  "limit_window": null
+                },
+                {
+                  "article_id": "H02",
+                  "topic": "OpenAI SDK 連線",
+                  "audience": "all",
+                  "keywords": "OpenAI SDK base_url 端點",
+                  "content": "模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 base_url，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "category": "existing",
+      "question": "如何使用 OpenAI SDK 連接？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H02；端點尚未配置，不虛構可用網址",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬校園平台的教學示範政策（資料來源：模擬說明文章 `H02`）：\n\n* **連線說明**：模擬平台尚未配置可連線的端點。\n* **開發注意事項**：使用 OpenAI SDK 連接時，須由平台管理者提供正確的 `base_url`，並應從後端環境變數讀取 API Key，**不得**將金鑰寫在前端，亦不可猜測端點。\n\n（註：此為教學示範資料，不代表目前平台已有可呼叫的服務。）",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "OpenAI SDK"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H02",
+                  "topic": "OpenAI SDK 連線",
+                  "audience": "all",
+                  "keywords": "OpenAI SDK base_url 端點",
+                  "content": "模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 base_url，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "category": "existing",
+      "question": "429 代表什麼？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H03；不可一律判每日額度耗盡",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據虛構校園平台的教學示範政策（模擬資料，文章 ID：H03），429 錯誤可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "429"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H03",
+                  "topic": "429 錯誤",
+                  "audience": "all",
+                  "keywords": "429 速率 額度",
+                  "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "category": "existing",
+      "question": "學生每日使用額度？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H04，20次/day，模擬政策",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles",
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據虛構校園平台政策（模擬資料，文章 ID：H04），學生身分的每日使用額度上限為 **20 次請求/天**（每日最多 20 次請求）。\n\n如果您想計算目前的剩餘次數，請提供您今天已使用的請求次數，我可以為您進行模擬試算。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "audience": "student",
+            "query": "學生 額度"
+          },
+          "result": {
+            "ok": false,
+            "error": {
+              "code": "NOT_FOUND",
+              "message": "查無符合資料；可換具體關鍵字重查"
+            }
+          }
+        },
+        {
+          "step": 2,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "audience": "student",
+            "query": "額度"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H03",
+                  "topic": "429 錯誤",
+                  "audience": "all",
+                  "keywords": "429 速率 額度",
+                  "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                  "request_limit": null,
+                  "limit_window": null
+                },
+                {
+                  "article_id": "H04",
+                  "topic": "學生每日額度",
+                  "audience": "student",
+                  "keywords": "學生 每日 額度",
+                  "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                  "request_limit": 20,
+                  "limit_window": "day"
+                },
+                {
+                  "article_id": "H07",
+                  "topic": "登入與帳號權限",
+                  "audience": "all",
+                  "keywords": "登入 帳號 權限 學生 教師",
+                  "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "category": "existing",
+      "question": "INC-001 處理到哪？",
+      "stages": [
+        [
+          "search_issue_records"
+        ]
+      ],
+      "content_check": "INC-001 investigating、available=false、最後更新時間、模擬標示",
+      "status": 200,
+      "actual_tools": [
+        "search_issue_records"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬故障紀錄（編號：INC-001）：\n- **最後更新時間**：2026-10-20T08:00:00Z\n- **處理階段**：investigating（調查中）\n- **服務可用性（最後更新時）**：不可用（`available: false`）\n- **受影響請求數**：12 次\n- **故障主旨**：學生登入失敗\n\n（註：此為平台模擬資料）",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_issue_records",
+          "arguments": {
+            "issue_id": "INC-001"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "records": [
+                {
+                  "issue_id": "INC-001",
+                  "title": "學生登入失敗",
+                  "service": "login",
+                  "symptom": "學生登入顯示暫時無法登入",
+                  "status": "investigating",
+                  "available": false,
+                  "affected_requests": 12,
+                  "workaround": "無已知方法；稍後重試並保留錯誤碼",
+                  "updated_at": "2026-10-20T08:00:00Z"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q06",
+      "category": "existing",
+      "question": "之前有類似 429 的故障嗎？",
+      "stages": [
+        [
+          "search_issue_records"
+        ]
+      ],
+      "content_check": "INC-004 resolved、更新時間，不當成目前真實故障",
+      "status": 200,
+      "actual_tools": [
+        "search_issue_records"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬故障紀錄查詢結果（模擬標示）：\n\n* **代號**：`INC-004`\n* **最後更新時間**：`2026-10-19T08:00:00Z`\n* **標題**：429 速率限制誤觸\n* **處理階段**：`resolved`（已解決）\n* **服務可用性（最後更新時）**：`available = true`（當時服務可用，不代表目前狀態）\n* **受影響請求數**：30 次\n\n當時的症狀為低於限制仍收到 429。若再次發生，建議記錄錯誤內容，並請勿密集重試。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_issue_records",
+          "arguments": {
+            "query": "429"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "records": [
+                {
+                  "issue_id": "INC-004",
+                  "title": "429 速率限制誤觸",
+                  "service": "api",
+                  "symptom": "低於限制仍收到 429",
+                  "status": "resolved",
+                  "available": true,
+                  "affected_requests": 30,
+                  "workaround": "已修正；再次發生時記錄錯誤內容，勿密集重試",
+                  "updated_at": "2026-10-19T08:00:00Z"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q07",
+      "category": "calculation",
+      "question": "假設每日20次，今天已用8次，還剩多少？",
+      "stages": [
+        [
+          "calculate_remaining_requests"
+        ]
+      ],
+      "content_check": "user_assumption、20/8/day、remaining=12、sendable_now=12次；模擬非實際餘額",
+      "status": 200,
+      "actual_tools": [
+        "calculate_remaining_requests"
+      ],
+      "routing_pass": true,
+      "reply": "【模擬試算】\n* 項目：每日請求額度\n* 來源：使用者假設 (user_assumption)\n* 統計期間：day\n* 上限：20 次\n* 已用：8 次\n* 剩餘：12 次\n* 目前可發送量 (`sendable_now`)：12 次\n* 單位：requests\n\n註：此為教學模擬試算，非帳戶實際餘額，亦不保證後續請求一定成功或預測重設時間；每日剩餘不等於每分鐘可送量。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "calculate_remaining_requests",
+          "arguments": {
+            "limits": [
+              {
+                "maximum": 20,
+                "used": 8,
+                "name": "每日請求額度",
+                "source": "user_assumption",
+                "window": "day"
+              }
+            ]
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "limits": [
+                {
+                  "maximum": 20,
+                  "used": 8,
+                  "name": "每日請求額度",
+                  "source": "user_assumption",
+                  "window": "day",
+                  "remaining": 12,
+                  "over_limit": false
+                }
+              ],
+              "sendable_now": 12,
+              "unit": "requests",
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q08",
+      "category": "calculation",
+      "question": "依學生模擬政策，今天已用8次，這一分鐘已用4次，現在還能送幾次？請列來源、各限制與用量。",
+      "stages": [
+        [
+          "search_help_articles"
+        ],
+        [
+          "calculate_remaining_requests"
+        ]
+      ],
+      "content_check": "先取得H04與H06，再以help_article計算；20/8/day剩12、5/4/minute剩1、sendable_now=1次；模擬試算",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles",
+        "search_help_articles",
+        "search_help_articles",
+        "calculate_remaining_requests"
+      ],
+      "routing_pass": true,
+      "reply": "以下為您進行模擬試算（模擬資料）：\n\n* 來源與各項限制：\n  1. **學生每日額度**（來源：政策文章 H04）\n     * 統計期間：每日\n     * 上限：20 次\n     * 已用：8 次\n     * 剩餘：12 次\n  2. **API每分鐘限制**（來源：政策文章 H06）\n     * 統計期間：每分鐘\n     * 上限：5 次\n     * 已用：4 次\n     * 剩餘：1 次\n\n* **目前可送次數（sendable_now）**：1 次請求（取各限制中較小的剩餘量）\n\n*說明：此為依平台政策之模擬試算結果，非帳戶實際餘額，每日剩餘不等於每分鐘可送量，亦不保證後續請求一定成功。*",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "audience": "student",
+            "query": "限制"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H03",
+                  "topic": "429 錯誤",
+                  "audience": "all",
+                  "keywords": "429 速率 額度",
+                  "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                  "request_limit": null,
+                  "limit_window": null
+                },
+                {
+                  "article_id": "H06",
+                  "topic": "API 每分鐘限制",
+                  "audience": "all",
+                  "keywords": "API 每分鐘 速率 限制",
+                  "content": "模擬政策：每分鐘最多 5 次請求。每分鐘與每日限制同時適用；試算需提供各期間已用次數，不預測重設時間或保證發送成功。",
+                  "request_limit": 5,
+                  "limit_window": "minute"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        },
+        {
+          "step": 2,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "audience": "student",
+            "query": "每日限制"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H06",
+                  "topic": "API 每分鐘限制",
+                  "audience": "all",
+                  "keywords": "API 每分鐘 速率 限制",
+                  "content": "模擬政策：每分鐘最多 5 次請求。每分鐘與每日限制同時適用；試算需提供各期間已用次數，不預測重設時間或保證發送成功。",
+                  "request_limit": 5,
+                  "limit_window": "minute"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        },
+        {
+          "step": 3,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "學生",
+            "audience": "student"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H04",
+                  "topic": "學生每日額度",
+                  "audience": "student",
+                  "keywords": "學生 每日 額度",
+                  "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                  "request_limit": 20,
+                  "limit_window": "day"
+                },
+                {
+                  "article_id": "H07",
+                  "topic": "登入與帳號權限",
+                  "audience": "all",
+                  "keywords": "登入 帳號 權限 學生 教師",
+                  "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        },
+        {
+          "step": 4,
+          "tool_name": "calculate_remaining_requests",
+          "arguments": {
+            "limits": [
+              {
+                "source": "help_article",
+                "maximum": 20,
+                "name": "學生每日額度",
+                "used": 8,
+                "window": "day",
+                "article_id": "H04"
+              },
+              {
+                "window": "minute",
+                "used": 4,
+                "name": "API每分鐘限制",
+                "source": "help_article",
+                "maximum": 5,
+                "article_id": "H06"
+              }
+            ]
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "limits": [
+                {
+                  "source": "help_article",
+                  "maximum": 20,
+                  "name": "學生每日額度",
+                  "used": 8,
+                  "window": "day",
+                  "article_id": "H04",
+                  "remaining": 12,
+                  "over_limit": false
+                },
+                {
+                  "window": "minute",
+                  "used": 4,
+                  "name": "API每分鐘限制",
+                  "source": "help_article",
+                  "maximum": 5,
+                  "article_id": "H06",
+                  "remaining": 1,
+                  "over_limit": false
+                }
+              ],
+              "sendable_now": 1,
+              "unit": "requests",
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q09",
+      "category": "calculation",
+      "question": "假設每日20次，今天已用21次，還剩多少？",
+      "stages": [
+        [
+          "calculate_remaining_requests"
+        ]
+      ],
+      "content_check": "user_assumption，remaining=0、over_limit=true、sendable_now=0次；模擬試算",
+      "status": 200,
+      "actual_tools": [
+        "calculate_remaining_requests"
+      ],
+      "routing_pass": true,
+      "reply": "根據您的假設（上限 20 次，已使用 21 次），以下為模擬試算結果：\n\n- **來源**：使用者假設 (user_assumption)\n- **項目**：每日請求次數\n- **期間**：day (每日)\n- **上限**：20 requests\n- **已用**：21 requests\n- **剩餘 (remaining)**：0 requests（已超出上限，over_limit: true）\n- **目前可送出量 (sendable_now)**：0 requests\n- **請求次數單位**：requests\n- **備註**：此為模擬試算，非帳戶實際餘額，亦不保證後續請求成功或預測重設時間。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "calculate_remaining_requests",
+          "arguments": {
+            "limits": [
+              {
+                "maximum": 20,
+                "name": "每日請求次數",
+                "source": "user_assumption",
+                "window": "day",
+                "used": 21
+              }
+            ]
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "limits": [
+                {
+                  "maximum": 20,
+                  "name": "每日請求次數",
+                  "source": "user_assumption",
+                  "window": "day",
+                  "used": 21,
+                  "remaining": 0,
+                  "over_limit": true
+                }
+              ],
+              "sendable_now": 0,
+              "unit": "requests",
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q10",
+      "category": "missing",
+      "question": "查 INC-999 的處理進度",
+      "stages": [
+        [
+          "search_issue_records"
+        ]
+      ],
+      "content_check": "NOT_FOUND，目前示範資料未收錄，不補造紀錄或階段",
+      "status": 200,
+      "actual_tools": [
+        "search_issue_records"
+      ],
+      "routing_pass": true,
+      "reply": "查無編號 INC-999 的公開模擬故障紀錄（代碼：NOT_FOUND），此為示範資料尚未收錄。請確認代碼是否正確。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_issue_records",
+          "arguments": {
+            "issue_id": "INC-999"
+          },
+          "result": {
+            "ok": false,
+            "error": {
+              "code": "NOT_FOUND",
+              "message": "查無符合的公開模擬故障紀錄"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q11",
+      "category": "missing",
+      "question": "查詢不存在的火星校區政策",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "NOT_FOUND，示範資料未收錄，不補造政策",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬教學資料庫查詢（政策文章操作與政策），目前示範資料中查無與「火星校區」相關的政策。查無資料不代表政策不存在，僅表示目前示範資料未收錄，您可嘗試更換具體關鍵字重新查詢。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "火星校區"
+          },
+          "result": {
+            "ok": false,
+            "error": {
+              "code": "NOT_FOUND",
+              "message": "查無符合資料；可換具體關鍵字重查"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q12",
+      "category": "support",
+      "question": "請給我人工支援指引",
+      "stages": [
+        [
+          "get_human_support"
+        ]
+      ],
+      "content_check": "H08，管道未配置、未交接，不虛構聯絡方式",
+      "status": 502,
+      "actual_tools": [
+        "get_human_support"
+      ],
+      "routing_pass": false,
+      "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "get_human_support",
+          "arguments": {
+            "reason": "other"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "article_id": "H08",
+              "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+              "channel_configured": false,
+              "handoff_completed": false,
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "category": "out_of_scope",
+      "question": "幫我寫日本旅遊行程",
+      "stages": [],
+      "content_check": "只婉拒並說明客服範圍，不產生行程",
+      "status": 502,
+      "actual_tools": [],
+      "routing_pass": false,
+      "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+      "tool_traces": []
+    },
+    {
+      "id": "Q14",
+      "category": "out_of_scope",
+      "question": "Write a poem about the moon.",
+      "stages": [],
+      "content_check": "英文婉拒，不產生詩歌",
+      "status": 200,
+      "actual_tools": [],
+      "routing_pass": true,
+      "reply": "I can only help with this campus AI platform's support requests, including platform policy inquiries, public incident record searches, remaining request calculations, and human support guidelines.",
+      "tool_traces": []
+    }
+  ],
+  "metric": "HTTP 200 and ordered tool-name stages; content requires manual review",
+  "routing_correct": 12,
+  "completed": 14,
+  "finished_at": "2026-10-23T12:38:24.723443+00:00"
+}

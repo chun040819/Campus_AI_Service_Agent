@@ -1,0 +1,301 @@
+{
+  "started_at": "2026-10-23T12:32:08.242583+00:00",
+  "provider_host": "generativelanguage.googleapis.com",
+  "model": "gemini-3.5-flash-lite",
+  "cases_sha256": "006bf91e79a273a83d85a951d176aaf32da32cb9dca00f24ec8ecae64c87f92a",
+  "cases": [
+    {
+      "id": "Q01",
+      "category": "existing",
+      "question": "API Key 怎麼申請？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H01；模擬流程，不代建或索取金鑰",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬平台政策（文章編號 H01，模擬資料）：\n\n登入後於 API Key 管理頁選擇建立，建立後自行安全保存。不要將金鑰貼入聊天或公開程式碼；疑似外洩時於管理頁撤銷。此為示範流程，客服不代為建立或撤銷。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "API Key"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H01",
+                  "topic": "API Key 申請",
+                  "audience": "all",
+                  "keywords": "API Key 申請 撤銷",
+                  "content": "模擬平台：登入後於 API Key 管理頁選擇建立，建立後自行安全保存。不要將金鑰貼入聊天或公開程式碼；疑似外洩時於管理頁撤銷。此為示範流程，客服不代為建立或撤銷。",
+                  "request_limit": null,
+                  "limit_window": null
+                },
+                {
+                  "article_id": "H02",
+                  "topic": "OpenAI SDK 連線",
+                  "audience": "all",
+                  "keywords": "OpenAI SDK base_url 端點",
+                  "content": "模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 base_url，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "category": "existing",
+      "question": "如何使用 OpenAI SDK 連接？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H02；端點尚未配置，不虛構可用網址",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬平台政策文章（文章 ID：H02，主題：OpenAI SDK 連線，適用對象：all），模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 `base_url`，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。（模擬資料）",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "OpenAI SDK"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H02",
+                  "topic": "OpenAI SDK 連線",
+                  "audience": "all",
+                  "keywords": "OpenAI SDK base_url 端點",
+                  "content": "模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 base_url，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "category": "existing",
+      "question": "429 代表什麼？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H03；不可一律判每日額度耗盡",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據虛構校園平台政策（模擬資料，文章 ID：H03），429 錯誤可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "429"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H03",
+                  "topic": "429 錯誤",
+                  "audience": "all",
+                  "keywords": "429 速率 額度",
+                  "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "category": "existing",
+      "question": "學生每日使用額度？",
+      "stages": [
+        [
+          "search_help_articles"
+        ]
+      ],
+      "content_check": "H04，20次/day，模擬政策",
+      "status": 200,
+      "actual_tools": [
+        "search_help_articles"
+      ],
+      "routing_pass": true,
+      "reply": "根據虛構校園平台的教學示範政策（模擬資料）：\n\n* **政策文章 ID**：`H04`\n* **主題**：學生每日額度\n* **內容**：學生每日最多 **20 次** 請求（限每日統計）。\n\n（註：此為教學示範政策。若您想計算目前的剩餘請求次數，請提供您今天已使用的次數，我將為您進行試算。）",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_help_articles",
+          "arguments": {
+            "query": "額度",
+            "audience": "student"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "articles": [
+                {
+                  "article_id": "H03",
+                  "topic": "429 錯誤",
+                  "audience": "all",
+                  "keywords": "429 速率 額度",
+                  "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                  "request_limit": null,
+                  "limit_window": null
+                },
+                {
+                  "article_id": "H04",
+                  "topic": "學生每日額度",
+                  "audience": "student",
+                  "keywords": "學生 每日 額度",
+                  "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                  "request_limit": 20,
+                  "limit_window": "day"
+                },
+                {
+                  "article_id": "H07",
+                  "topic": "登入與帳號權限",
+                  "audience": "all",
+                  "keywords": "登入 帳號 權限 學生 教師",
+                  "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                  "request_limit": null,
+                  "limit_window": null
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q05",
+      "category": "existing",
+      "question": "INC-001 處理到哪？",
+      "stages": [
+        [
+          "search_issue_records"
+        ]
+      ],
+      "content_check": "INC-001 investigating、available=false、最後更新時間、模擬標示",
+      "status": 200,
+      "actual_tools": [
+        "search_issue_records"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬故障紀錄（資料為教學示範）：\n\n* **代號**：INC-001\n* **處理階段**：investigating（調查中）\n* **最後更新時間**：2026-10-20T08:00:00Z\n* **最後更新時服務可用性 (available)**：false（不可用；不代表目前真實狀態）\n\n受影響請求數為 12 次。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_issue_records",
+          "arguments": {
+            "issue_id": "INC-001"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "records": [
+                {
+                  "issue_id": "INC-001",
+                  "title": "學生登入失敗",
+                  "service": "login",
+                  "symptom": "學生登入顯示暫時無法登入",
+                  "status": "investigating",
+                  "available": false,
+                  "affected_requests": 12,
+                  "workaround": "無已知方法；稍後重試並保留錯誤碼",
+                  "updated_at": "2026-10-20T08:00:00Z"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q06",
+      "category": "existing",
+      "question": "之前有類似 429 的故障嗎？",
+      "stages": [
+        [
+          "search_issue_records"
+        ]
+      ],
+      "content_check": "INC-004 resolved、更新時間，不當成目前真實故障",
+      "status": 200,
+      "actual_tools": [
+        "search_issue_records"
+      ],
+      "routing_pass": true,
+      "reply": "根據模擬平台的公開故障紀錄查詢結果：\n\n- **故障代號**：INC-004\n- **最後更新時間**：2026-10-19T08:00:00Z\n- **模擬標示**：模擬資料\n- **故障主旨**：429 速率限制誤觸\n- **服務與症狀**：`api` 服務，症狀為「低於限制仍收到 429」。\n- **處理階段**：`resolved`（已解決）\n- **服務可用性**：`available: true`（此為該筆紀錄最後更新時的服務可用性，不代表目前真實狀態）\n- **受影響請求數**：30 次（此單位為受影響請求數，非個人用量或剩餘額度）\n- **暫行處理方法**：已修正；再次發生時記錄錯誤內容，勿密集重試",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "search_issue_records",
+          "arguments": {
+            "query": "429"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "records": [
+                {
+                  "issue_id": "INC-004",
+                  "title": "429 速率限制誤觸",
+                  "service": "api",
+                  "symptom": "低於限制仍收到 429",
+                  "status": "resolved",
+                  "available": true,
+                  "affected_requests": 30,
+                  "workaround": "已修正；再次發生時記錄錯誤內容，勿密集重試",
+                  "updated_at": "2026-10-19T08:00:00Z"
+                }
+              ],
+              "simulated": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "metric": "HTTP 200 and ordered tool-name stages; content requires manual review",
+  "routing_correct": 6,
+  "completed": 6
+}
