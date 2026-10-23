@@ -1,4 +1,5 @@
 import sqlite3
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -10,12 +11,14 @@ def register_records(registry: ToolRegistry, database: Path) -> None:
         with sqlite3.connect(database) as conn:
             conn.row_factory = sqlite3.Row
             rows = conn.execute(
-                "SELECT * FROM issue_records WHERE (? IS NULL OR instr(lower(title), lower(?)) > 0 OR instr(lower(service), lower(?)) > 0 OR instr(lower(symptom), lower(?)) > 0 OR instr(lower(workaround), lower(?)) > 0) AND (? IS NULL OR issue_id = ?) AND (? IS NULL OR status = ?) ORDER BY julianday(updated_at) DESC, issue_id ASC LIMIT ?",
-                (query, query, query, query, query, issue_id, issue_id, status, status, limit),
+                "SELECT * FROM issue_records WHERE (? IS NULL OR instr(lower(title), lower(?)) > 0 OR instr(lower(service), lower(?)) > 0 OR instr(lower(symptom), lower(?)) > 0 OR instr(lower(workaround), lower(?)) > 0) AND (? IS NULL OR issue_id = ?) AND (? IS NULL OR status = ?) ORDER BY issue_id ASC",
+                (query, query, query, query, query, issue_id, issue_id, status, status),
             ).fetchall()
         if not rows:
             return error("NOT_FOUND", "查無符合的公開模擬故障紀錄")
         records = [dict(row) for row in rows]
+        records.sort(key=lambda record: (record["updated_at"][:19], Decimal("0." + record["updated_at"][20:-1]) if "." in record["updated_at"] else Decimal(0)), reverse=True)
+        records = records[:limit]
         for record in records:
             record["available"] = bool(record["available"])
         return {"ok": True, "data": {"records": records, "simulated": True}}

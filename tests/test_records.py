@@ -84,3 +84,14 @@ def test_time_ties_and_availability_are_independent(tmp_path: Path) -> None:
     assert [r["issue_id"] for r in records] == ["INC-001", "INC-002"]
     assert records[0]["available"] is True
     assert records[0]["status"] == "investigating"
+
+
+def test_latest_record_respects_microseconds(tmp_path: Path) -> None:
+    from backend.database import import_records
+
+    source = tmp_path / "records.csv"
+    source.write_text(Path("data/issue_records.csv").read_text().replace("2026-10-20T08:00:00Z", "2026-10-20T08:00:00.000001Z").replace("2026-10-20T07:00:00Z", "2026-10-20T08:00:00.000002Z"))
+    db = tmp_path / "demo.db"
+    import_records(source, db)
+    result = create_registry(db).execute("search_issue_records", {"limit": 1})
+    assert result["data"]["records"][0]["issue_id"] == "INC-002"

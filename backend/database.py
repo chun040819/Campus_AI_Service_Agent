@@ -64,8 +64,10 @@ def import_records(source: Path, database: Path) -> None:
                 updated = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
                 if updated.utcoffset() != timezone.utc.utcoffset(updated):
                     raise ValueError()
+                fraction = timestamp.split(".", 1)[1].split("Z", 1)[0].split("+", 1)[0].rstrip("0") if "." in timestamp else ""
+                normalized = timestamp[:19] + ("." + fraction if fraction else "") + "Z"
                 seen.add(row["issue_id"])
-                rows.append(tuple(row[key] for key in fields[:5]) + (int(row["available"] == "true"), int(count), row["workaround"], updated.isoformat().replace("+00:00", "Z")))
+                rows.append(tuple(row[key] for key in fields[:5]) + (int(row["available"] == "true"), int(count), row["workaround"], normalized))
             except (ValueError, TypeError, OverflowError):
                 raise ValueError(f"{source}:{line}: invalid issue record") from None
     if len(rows) < 15:

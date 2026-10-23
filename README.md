@@ -47,3 +47,5 @@ API 測試以受控 OpenAI-compatible HTTP 回應驅動真實 Registry、CSV 與
 真實模型驗收：設定後端環境後，以一般 `backend.main:app` 啟動，分別詢問「API Key 怎麼申請？」、「429 代表什麼？」、「查詢不存在的火星校區政策」與範圍外問題；檢查工具名稱、參數、結果與最終回覆一致。多輪與清除也需驗證。2026-10-23 已完成 Gemini 真實模型的上述 API 案例及學生／教師多輪查詢、重設驗證，見 [驗證紀錄](docs/issue-2-validation.md)。此為有限案例，不宣稱普遍模型選用正確率或完整作業完成。
 
 Gemini 的相容端點為 `https://generativelanguage.googleapis.com/v1beta/openai/`，`LLM_MODEL` 使用 API ID（例如本次驗證的 `gemini-3.5-flash-lite`），不能填顯示名稱。請依 [官方文件](https://ai.google.dev/gemini-api/docs/openai/) 與帳戶可用模型設定。
+
+Issue #3 的自動測試、真實模型 API 與 Chrome 聊天驗收見 [紀錄查詢驗證](docs/issue-3-validation.md)。
