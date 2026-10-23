@@ -1,0 +1,226 @@
+{
+  "date": "2026-10-23",
+  "provider": "Gemini OpenAI-compatible",
+  "model": "gemini-3.5-flash-lite",
+  "results": [
+    {
+      "question": "API Key 怎麼申請？",
+      "status": 200,
+      "response": {
+        "reply": "根據模擬資料，申請 API Key 的步驟如下：\n\n登入後於 **API Key 管理頁**選擇建立，建立後請自行安全保存（模擬資料）。\n\n*注意事項：*\n* 不要將金鑰貼入聊天或公開程式碼。\n* 若疑似外洩，請於管理頁進行撤銷。\n* 這是示範流程，客服無法代為建立或撤銷。",
+        "tool_traces": [
+          {
+            "step": 1,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "query": "API Key"
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "articles": [
+                  {
+                    "article_id": "H01",
+                    "topic": "API Key 申請",
+                    "audience": "all",
+                    "keywords": "API Key 申請 撤銷",
+                    "content": "模擬平台：登入後於 API Key 管理頁選擇建立，建立後自行安全保存。不要將金鑰貼入聊天或公開程式碼；疑似外洩時於管理頁撤銷。此為示範流程，客服不代為建立或撤銷。",
+                    "request_limit": null,
+                    "limit_window": null
+                  },
+                  {
+                    "article_id": "H02",
+                    "topic": "OpenAI SDK 連線",
+                    "audience": "all",
+                    "keywords": "OpenAI SDK base_url 端點",
+                    "content": "模擬平台尚未配置可連線端點。使用 SDK 時須由平台管理者提供 base_url，並從後端環境變數讀取 API Key；不得猜測端點或將金鑰放在前端。此資料不表示目前已有可呼叫服務。",
+                    "request_limit": null,
+                    "limit_window": null
+                  }
+                ],
+                "simulated": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question": "429 代表什麼？",
+      "status": 200,
+      "response": {
+        "reply": "根據模擬資料（`H03`）：\n\n「429」可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+        "tool_traces": [
+          {
+            "step": 1,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "query": "429"
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "articles": [
+                  {
+                    "article_id": "H03",
+                    "topic": "429 錯誤",
+                    "audience": "all",
+                    "keywords": "429 速率 額度",
+                    "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                    "request_limit": null,
+                    "limit_window": null
+                  }
+                ],
+                "simulated": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question": "查詢不存在的火星校區政策",
+      "status": 200,
+      "response": {
+        "reply": "很抱歉，根據目前的教學示範資料查詢，沒有找到關於「火星校區」的政策。您可以嘗試更換其他具體的主題詞再次查詢。（此為模擬資料）",
+        "tool_traces": [
+          {
+            "step": 1,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "query": "火星校區"
+            },
+            "result": {
+              "ok": false,
+              "error": {
+                "code": "NOT_FOUND",
+                "message": "查無符合資料；可換具體關鍵字重查"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question": "幫我寫旅遊行程",
+      "status": 200,
+      "response": {
+        "reply": "我是虛構校園 AI 平台客服，主要協助查詢校園平台操作與相關政策。您的需求「寫旅遊行程」屬於範圍外問題，因此無法協助處理。如果您有關於平台操作或政策的疑問，歡迎隨時詢問！",
+        "tool_traces": []
+      }
+    },
+    {
+      "question": "學生每日使用額度？",
+      "response": {
+        "reply": "根據模擬資料（參考文章代號 H04），學生每日最多可使用 20 次請求。",
+        "tool_traces": [
+          {
+            "step": 1,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "audience": "student",
+              "query": "每日使用額度"
+            },
+            "result": {
+              "ok": false,
+              "error": {
+                "code": "NOT_FOUND",
+                "message": "查無符合資料；可換具體關鍵字重查"
+              }
+            }
+          },
+          {
+            "step": 2,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "query": "額度",
+              "audience": "student"
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "articles": [
+                  {
+                    "article_id": "H03",
+                    "topic": "429 錯誤",
+                    "audience": "all",
+                    "keywords": "429 速率 額度",
+                    "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                    "request_limit": null,
+                    "limit_window": null
+                  },
+                  {
+                    "article_id": "H04",
+                    "topic": "學生每日額度",
+                    "audience": "student",
+                    "keywords": "學生 每日 額度",
+                    "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                    "request_limit": 20,
+                    "limit_window": "day"
+                  },
+                  {
+                    "article_id": "H07",
+                    "topic": "登入與帳號權限",
+                    "audience": "all",
+                    "keywords": "登入 帳號 權限 學生 教師",
+                    "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                    "request_limit": null,
+                    "limit_window": null
+                  }
+                ],
+                "simulated": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question": "那教師呢？",
+      "status": 200,
+      "response": {
+        "reply": "根據模擬資料（參考文章代號 H05），教師每日最多可使用 40 次請求。",
+        "tool_traces": [
+          {
+            "step": 1,
+            "tool_name": "search_help_articles",
+            "arguments": {
+              "audience": "teacher",
+              "query": "每日額度"
+            },
+            "result": {
+              "ok": true,
+              "data": {
+                "articles": [
+                  {
+                    "article_id": "H03",
+                    "topic": "429 錯誤",
+                    "audience": "all",
+                    "keywords": "429 速率 額度",
+                    "content": "429 可能涉及速率或額度限制，應依回傳錯誤內容與限制期間判斷；不要一律解讀為每日額度耗盡，也不要密集重試。客服無法讀取真實帳戶用量。",
+                    "request_limit": null,
+                    "limit_window": null
+                  },
+                  {
+                    "article_id": "H05",
+                    "topic": "教師每日額度",
+                    "audience": "teacher",
+                    "keywords": "教師 每日 額度",
+                    "content": "模擬政策：教師每日最多 40 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                    "request_limit": 40,
+                    "limit_window": "day"
+                  }
+                ],
+                "simulated": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "reset_status": 200,
+      "old_session_status": 404
+    }
+  ]
+}
