@@ -23,8 +23,19 @@ Chrome DevTools 開啟一般 Vite 頁面。一般後端的 INC-999 對話畫面�
 
 重現：`.venv/bin/uvicorn tests.browser_failure_server:app --host 127.0.0.1 --port 8000`，搭配 `npm --prefix frontend run dev`。此 fixture 只控制外部模型 HTTP 回應，API、Registry、CSV、SQLite、UI 均為實際程式；工具錯誤透過刪除專用 /tmp 測試資料庫重現，重新啟動 fixture 恢復。不代表真實模型選工具能力。
 
-Playwright CLI 啟動未完成、連接器瀏覽器被占用，改用 Chrome DevTools。截圖可在工具回覆檢視，但連接器拒絕寫入本專案路徑，因此未聲稱有已存檔 PNG；保留可重現 fixture 與瀏覽器文字快照。
+Playwright CLI 因 npm registry DNS 失敗未能啟動、連接器瀏覽器被占用，改用 Chrome DevTools。截圖可在工具回覆檢視，但連接器拒絕寫入本專案路徑，因此未聲稱有已存檔 PNG；保留可重現 fixture 與瀏覽器文字快照。
 
 ## 自動檢查與審查
 
-API 單檔21項通過；最後全套 pytest 75項通過，既有 Starlette/httpx 棄用警告1則。後端 mypy（10檔）、前端 TypeScript 與 Vite build 通過。雙軸審查於交付前補記。
+API 單檔21項通過；最後全套 pytest 75項通過，既有 Starlette/httpx 棄用警告1則。後端 mypy（10檔）、前端 TypeScript 與 Vite build 通過。
+
+
+## Standards
+
+獨立代理以 `git diff 2ee7419...HEAD`（實作提交 `9885535`）檢查 AGENTS.md、RTK 與 docs/agents 指引及 Fowler smell baseline：0項發現，未見規範違反或需處理的異味。
+
+## Spec
+
+另一獨立代理比對 Issue #7、v1.2 §6–7 與核准工具規格：0項發現。查無／範圍外、失敗停止、trace、歷史隔離、語言及人工支援界線均有對應證據，未見範圍擴張。
+
+總計 Standards 0項、Spec 0項，兩軸均無阻擋問題。審查後僅補本紀錄與移除快照結尾空白行，未改產品或測試程式。
