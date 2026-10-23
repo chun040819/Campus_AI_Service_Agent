@@ -1,0 +1,32 @@
+## Latest page snapshot
+uid=6_0 RootWebArea "校園 AI 平台客服" url="http://127.0.0.1:5173/"
+  uid=6_1 main
+    uid=6_2 "CAMPUS AI · SERVICE DESK"
+    uid=6_3 heading "校園 AI 平台客服" level="1"
+    uid=6_4 "虛構平台・教學示範資料，不代表真實學校政策或服務狀態。"
+    uid=6_5 region "客服對話"
+      uid=6_6 heading "資訊諮詢" level="2"
+      uid=6_7 button "清除對話"
+      uid=6_13 generic live="polite" relevant="additions text"
+        uid=7_0 "<img src=x onerror="window.__campusXss=1"><script>window.__campusXss=2</script>"
+        uid=7_1 "<img src=x onerror="window.__campusXss=1"><script>window.__campusXss=2</script>"
+      uid=6_14 form
+        uid=6_15 "你的問題"
+        uid=6_16 textbox "你的問題" multiline required
+        uid=6_17 button "送出問題" disableable disabled
+      uid=6_18 heading "工具執行軌跡" level="2"
+      uid=6_19 "顯示每輪實際工具名稱、參數與結果。"
+      uid=7_2 heading "第 1 輪" level="3"
+      uid=7_3 DisclosureTriangle "<img src=x onerror="window.__campusXss=1"><script>window.__campusXss=2</script> · 步驟 1" expandable expanded
+      uid=7_4 heading "參數" level="4"
+      uid=7_5 "{
+  "query": "<img src=x onerror=\"window.__campusXss=1\"><script>window.__campusXss=2</script>"
+}"
+      uid=7_6 heading "結果" level="4"
+      uid=7_7 "{
+  "ok": false,
+  "error": {
+    "code": "INVALID_ARGUMENT",
+    "message": "未註冊的工具"
+  }
+}"

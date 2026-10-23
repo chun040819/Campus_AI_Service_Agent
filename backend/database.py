@@ -1,19 +1,29 @@
 import csv
 import sqlite3
+import io
 from pathlib import Path
+
+
+def _csv_text(source: Path) -> io.StringIO:
+    raw = source.read_bytes()
+    try:
+        return io.StringIO(raw.decode("utf-8-sig"), newline="")
+    except UnicodeDecodeError as exc:
+        line = len(raw[:exc.start].splitlines()) + (not raw[:exc.start] or raw[:exc.start].endswith((b"\n", b"\r")))
+        raise ValueError(f"{source}:{line}: invalid UTF-8 encoding") from None
 
 
 def import_articles(source: Path, database: Path) -> None:
     rows: list[tuple[str | int | None, ...]] = []
     seen: set[str] = set()
     fields = ["article_id", "topic", "audience", "keywords", "content", "request_limit", "limit_window"]
-    with source.open(encoding="utf-8-sig", newline="") as file:
+    with _csv_text(source) as file:
         reader = csv.DictReader(file)
         if reader.fieldnames != fields:
             raise ValueError(f"{source}:1: invalid columns")
         for line, row in enumerate(reader, 2):
             try:
-                if None in row or any(not row[key] or not row[key].strip() for key in fields[:5]):
+                if None in row or any(value is None for value in row.values()) or any(not row[key] or not row[key].strip() for key in fields[:5]):
                     raise ValueError()
                 if row["article_id"] in seen or row["audience"] not in {"student", "teacher", "all"}:
                     raise ValueError()
@@ -43,13 +53,13 @@ def import_records(source: Path, database: Path) -> None:
     fields = ["issue_id", "title", "service", "symptom", "status", "available", "affected_requests", "workaround", "updated_at"]
     rows: list[tuple[str | int, ...]] = []
     seen: set[str] = set()
-    with source.open(encoding="utf-8-sig", newline="") as file:
+    with _csv_text(source) as file:
         reader = csv.DictReader(file)
         if reader.fieldnames != fields:
             raise ValueError(f"{source}:1: invalid columns")
         for line, row in enumerate(reader, 2):
             try:
-                if None in row or any(not row[key] or not row[key].strip() for key in fields):
+                if None in row or any(value is None for value in row.values()) or any(not row[key] or not row[key].strip() for key in fields):
                     raise ValueError()
                 if not re.fullmatch(r"INC-[0-9]{3}", row["issue_id"]) or row["issue_id"] in seen:
                     raise ValueError()

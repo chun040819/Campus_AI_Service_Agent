@@ -61,3 +61,5 @@ Issue #5 的驗證見 [人工支援驗證](docs/issue-5-validation.md)。
 Issue #6 的多輪指代、Session 隔離、重設與瀏覽器執行中狀態驗證見 [Session 驗證](docs/issue-6-validation.md)。
 
 Issue #7 的安全回覆、失敗復原、真實模型查無／範圍外複測與可重現瀏覽器故障驗證見 [安全回覆驗證](docs/issue-7-validation.md)。
+
+Issue #8 的 CSV、工具執行邊界與瀏覽器 XSS 驗證見 [邊界驗證](docs/issue-8-validation.md)。
