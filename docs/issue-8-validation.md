@@ -30,4 +30,12 @@
 
 邊界單檔18 passed；最後全套93 passed，既有 Starlette/httpx 棄用警告1則。mypy backend（10檔）、前端 TypeScript 與 Vite build 通過。驗收後已停止本機服務。
 
-雙軸 code-review 結果於交付前補記。
+## Standards
+
+獨立代理審查 `d082f3c...7ce6a0e`、專案規範及 Fowler smell baseline：0項發現，未見規範違反或需處理的異味。
+
+## Spec
+
+另一獨立代理比對 Issue #8、v1.2 與核准工具規格：0項發現。CSV、Registry／API 邊界、固定 SQL 查詢與瀏覽器 XSS 證據符合要求，未見範圍擴張。
+
+總計 Standards 0項、Spec 0項，兩軸均無阻擋問題。審查後僅補本紀錄，未更動產品或測試程式。
