@@ -1,6 +1,6 @@
 # Campus AI Service Agent
 
-虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前提供查資訊與公開模擬故障紀錄流程；計算與轉真人工具尚未開放。
+虛構校園 AI 平台客服，政策及 CSV 全為教學示範資料，不代表任何真實學校政策、端點或服務狀態。目前提供查資訊、公開模擬故障紀錄與請求次數試算；轉真人工具尚未開放。
 
 ## 本機啟動
 
@@ -26,11 +26,13 @@ npm --prefix frontend run dev
 - `GET /api/health`：服務存活，不代表模型可用。
 - `POST /api/chat`：`{"session_id":null,"message":"429 代表什麼？"}`；回傳 `session_id`、`reply`、本輪 `tool_traces`。後續帶入同一 ID 以延續對話。沒有工具呼叫則 trace 為空。
 - `POST /api/reset`：`{"session_id":"後端核發的 ID"}`；清除後端歷史，重複清除仍成功。
-- ToolRegistry 公開 `search_help_articles` 與 `search_issue_records`，固定字面子字串查詢；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
+- ToolRegistry 公開 `search_help_articles`、`search_issue_records` 與 `calculate_remaining_requests`。查詢採固定字面子字串比對；`%`、`_` 不是萬用字元。驗證名稱、參數及 schema/handler 欄位，統一 ok/data 或 ok/error。
 - 模型每輪最多 6 次呼叫，每次最多 8 個工具呼叫；失敗回 502 並保留已產生的 trace，本輪不加入歷史。每個 session 最多約 200 則訊息、服務最多 100 個對話；清除可釋放。
 - 單程序記憶體 Session，重啟即清空；請使用一個 worker。本機示範未提供身分認證，僅綁定 loopback，勿直接公開部署。所有聊天共用序列鎖，適合教學規模。
 
 `search_issue_records` 支援 query（title/service/symptom/workaround 字面比對）、issue_id（INC-三位數精確比對）、status（investigating/identified/monitoring/resolved），條件取交集；不提供條件時列最近 5 筆，limit 為 1–15。按更新時間降冪、ID 升冪排序。不可用是有效結果，查無為 NOT_FOUND；回覆保留模擬標示與最後更新時間，不表示目前真實狀態。
+
+`calculate_remaining_requests` 接受 1–4 項 `limits`，每項包含不重複的 `name`（1–40 字元）、`window`（minute/day）、`maximum` 與 `used`（0–1,000,000 的 JSON 整數，拒絕浮點與布林）、`source`（user_assumption/help_article）。政策來源另須 `article_id`，後端核對文章上限與期間；使用者假設不可帶文章 ID。每項以 Python 計算 `remaining=max(maximum-used,0)`，`sendable_now` 取最小剩餘值；單位為 requests（請求次數），超限回 0 並標記 `over_limit`。結果保留來源及輸入，皆為模擬試算，不是帳戶實際餘額、不保證發送成功或預測重設時間。已用次數必須由使用者明確提供；資料不足先詢問，不計算 Token、金額或並行數。政策查無、不一致或不可用時回傳錯誤。
 
 ## 驗證
 
@@ -49,3 +51,5 @@ API 測試以受控 OpenAI-compatible HTTP 回應驅動真實 Registry、CSV 與
 Gemini 的相容端點為 `https://generativelanguage.googleapis.com/v1beta/openai/`，`LLM_MODEL` 使用 API ID（例如本次驗證的 `gemini-3.5-flash-lite`），不能填顯示名稱。請依 [官方文件](https://ai.google.dev/gemini-api/docs/openai/) 與帳戶可用模型設定。
 
 Issue #3 的自動測試、真實模型 API 與 Chrome 聊天驗收見 [紀錄查詢驗證](docs/issue-3-validation.md)。
+
+Issue #4 的獨立驗算、受控 API 與真實模型計算 trace 見 [計算驗證](docs/issue-4-validation.md)。

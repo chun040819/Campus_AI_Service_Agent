@@ -8,6 +8,16 @@ def error(code: str, message: str) -> dict[str, Any]:
     return {"ok": False, "error": {"code": code, "message": message}}
 
 
+def _trim_strings(value: Any) -> Any:
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, list):
+        return [_trim_strings(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _trim_strings(item) for key, item in value.items()}
+    return value
+
+
 @dataclass(frozen=True)
 class Tool:
     name: str
@@ -37,8 +47,7 @@ class ToolRegistry:
         if name not in self._tools:
             return error("INVALID_ARGUMENT", "未註冊的工具")
         tool = self._tools[name]
-        if isinstance(arguments, dict):
-            arguments = {key: value.strip() if isinstance(value, str) else value for key, value in arguments.items()}
+        arguments = _trim_strings(arguments)
         if list(Draft202012Validator(tool.parameters_schema).iter_errors(arguments)):
             return error("INVALID_ARGUMENT", "工具參數不符合規格")
         # JSON Schema permits 1.0 as integer; this contract requires JSON integers.

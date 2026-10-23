@@ -1,0 +1,330 @@
+[
+  {
+    "question": "假設每日20次，今天已用8次，還剩多少？",
+    "status": 200,
+    "reply": "根據您提供的每日使用限制與用量（模擬試算）：\n\n* **項目名稱**：每日額度\n* **來源**：使用者假設\n* **統計期間**：day（每日）\n* **上限**：20 次\n* **已用次數**：8 次\n* **剩餘次數（remaining）**：12 次\n* **目前可送出請求數（sendable_now）**：12 次\n* **單位**：requests（次）\n\n（註：此為教學示範之模擬試算結果，不代表帳戶實際餘額，亦不保證後續請求一定成功或預測重設時間。）",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "maximum": 20,
+              "used": 8,
+              "window": "day",
+              "source": "user_assumption",
+              "name": "每日額度"
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "maximum": 20,
+                "used": 8,
+                "window": "day",
+                "source": "user_assumption",
+                "name": "每日額度",
+                "remaining": 12,
+                "over_limit": false
+              }
+            ],
+            "sendable_now": 12,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "依學生模擬政策，今天已用8次，這一分鐘已用4次，現在還能送幾次？請列出來源、各限制與用量。",
+    "status": 200,
+    "reply": "（模擬試算結果）\n\n根據學生模擬政策與平台限制，目前可送請求次數如下：\n\n* **現在可送次數 (`sendable_now`)**：1 requests\n\n### 各限制與用量明細：\n1. **學生每日額度**\n   - **來源**：政策文章 `H04`\n   - **期間**：day (每日)\n   - **上限**：20 requests\n   - **已用**：8 requests\n   - **剩餘**：12 requests\n\n2. **API 每分鐘限制**\n   - **來源**：政策文章 `H06`\n   - **期間**：minute (每分鐘)\n   - **上限**：5 requests\n   - **已用**：4 requests\n   - **剩餘**：1 requests\n\n*註：以上為教學示範之模擬試算，非真實帳戶餘額，亦不保證後續請求一定成功或預測重設時間；每日剩餘不等於每分鐘可送量。*",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "query": "學生模擬政策",
+          "audience": "student"
+        },
+        "result": {
+          "ok": false,
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "查無符合資料；可換具體關鍵字重查"
+          }
+        }
+      },
+      {
+        "step": 2,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "audience": "student",
+          "query": "學生"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H04",
+                "topic": "學生每日額度",
+                "audience": "student",
+                "keywords": "學生 每日 額度",
+                "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 20,
+                "limit_window": "day"
+              },
+              {
+                "article_id": "H07",
+                "topic": "登入與帳號權限",
+                "audience": "all",
+                "keywords": "登入 帳號 權限 學生 教師",
+                "content": "模擬平台登入異常可先確認登入入口及錯誤內容，再嘗試重新登入。學生與教師政策依各自額度文章說明；客服不能查私人帳戶、解鎖或變更權限。持續異常時取得人工支援指引。",
+                "request_limit": null,
+                "limit_window": null
+              }
+            ],
+            "simulated": true
+          }
+        }
+      },
+      {
+        "step": 3,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "query": "分鐘",
+          "audience": "student"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H06",
+                "topic": "API 每分鐘限制",
+                "audience": "all",
+                "keywords": "API 每分鐘 速率 限制",
+                "content": "模擬政策：每分鐘最多 5 次請求。每分鐘與每日限制同時適用；試算需提供各期間已用次數，不預測重設時間或保證發送成功。",
+                "request_limit": 5,
+                "limit_window": "minute"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      },
+      {
+        "step": 4,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "used": 8,
+              "article_id": "H04",
+              "window": "day",
+              "source": "help_article",
+              "maximum": 20,
+              "name": "學生每日額度"
+            },
+            {
+              "name": "API 每分鐘限制",
+              "maximum": 5,
+              "article_id": "H06",
+              "window": "minute",
+              "source": "help_article",
+              "used": 4
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "used": 8,
+                "article_id": "H04",
+                "window": "day",
+                "source": "help_article",
+                "maximum": 20,
+                "name": "學生每日額度",
+                "remaining": 12,
+                "over_limit": false
+              },
+              {
+                "name": "API 每分鐘限制",
+                "maximum": 5,
+                "article_id": "H06",
+                "window": "minute",
+                "source": "help_article",
+                "used": 4,
+                "remaining": 1,
+                "over_limit": false
+              }
+            ],
+            "sendable_now": 1,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "假設每日20次，今天已用21次，還剩多少？",
+    "status": 200,
+    "reply": "以下為模擬試算結果：\n\n* **項目**：每日額度\n* **來源**：使用者假設\n* **統計期間**：每日 (day)\n* **上限**：20 次\n* **已使用**：21 次\n* **剩餘次數 (remaining)**：0 次（已超出上限）\n* **目前可發送次數 (sendable_now)**：0 次\n* **請求次數單位**：requests\n\n註：此為模擬試算結果（教學示範資料），並非您的帳戶實際餘額，亦不保證後續請求會成功。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "window": "day",
+              "maximum": 20,
+              "used": 21,
+              "source": "user_assumption",
+              "name": "每日額度"
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "window": "day",
+                "maximum": 20,
+                "used": 21,
+                "source": "user_assumption",
+                "name": "每日額度",
+                "remaining": 0,
+                "over_limit": true
+              }
+            ],
+            "sendable_now": 0,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "假設每日0次，今天已用0次，還剩多少？",
+    "status": 200,
+    "reply": "以下為模擬試算結果（教學示範資料）：\n\n* **項目名稱**：每日使用額度\n* **來源**：使用者假設 (user_assumption)\n* **統計期間**：每日 (day)\n* **上限**：0 次\n* **已用次數**：0 次\n* **剩餘次數 (remaining)**：0 次\n* **目前是否可送出 (sendable_now)**：0 次\n* **請求次數單位**：requests\n\n*註：此為根據您提供之假設所進行的模擬試算，非帳戶實際餘額，亦不保證後續請求成功。*",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "calculate_remaining_requests",
+        "arguments": {
+          "limits": [
+            {
+              "maximum": 0,
+              "used": 0,
+              "window": "day",
+              "source": "user_assumption",
+              "name": "每日使用額度"
+            }
+          ]
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "limits": [
+              {
+                "maximum": 0,
+                "used": 0,
+                "window": "day",
+                "source": "user_assumption",
+                "name": "每日使用額度",
+                "remaining": 0,
+                "over_limit": false
+              }
+            ],
+            "sendable_now": 0,
+            "unit": "requests",
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "依學生政策，還剩多少請求次數？",
+    "status": 200,
+    "reply": "根據【模擬資料】學生政策（政策文章 ID：H04），學生每日最多可送出 20 次請求；此外，平台也有每分鐘最多 5 次的速率限制（政策文章 ID：H06）。\n\n請問您在**今天**（或**最近一分鐘**）已經使用過多少次請求了呢？請提供您目前的已用次數，以便為您試算剩餘次數。",
+    "tool_traces": [
+      {
+        "step": 1,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "audience": "student",
+          "query": "學生政策"
+        },
+        "result": {
+          "ok": false,
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "查無符合資料；可換具體關鍵字重查"
+          }
+        }
+      },
+      {
+        "step": 2,
+        "tool_name": "search_help_articles",
+        "arguments": {
+          "audience": "student",
+          "query": "次數"
+        },
+        "result": {
+          "ok": true,
+          "data": {
+            "articles": [
+              {
+                "article_id": "H04",
+                "topic": "學生每日額度",
+                "audience": "student",
+                "keywords": "學生 每日 額度",
+                "content": "模擬政策：學生每日最多 20 次請求。剩餘次數須搭配使用者提供的同日已用次數計算，不代表真實帳戶餘額。",
+                "request_limit": 20,
+                "limit_window": "day"
+              },
+              {
+                "article_id": "H06",
+                "topic": "API 每分鐘限制",
+                "audience": "all",
+                "keywords": "API 每分鐘 速率 限制",
+                "content": "模擬政策：每分鐘最多 5 次請求。每分鐘與每日限制同時適用；試算需提供各期間已用次數，不預測重設時間或保證發送成功。",
+                "request_limit": 5,
+                "limit_window": "minute"
+              }
+            ],
+            "simulated": true
+          }
+        }
+      }
+    ]
+  },
+  {
+    "question": "假設每日20次，今天已用-1次，還剩多少？",
+    "status": 502,
+    "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+    "tool_traces": [],
+    "error": "MODEL_FAILURE"
+  },
+  {
+    "question": "假設每日20次，今天已用-1次，還剩多少？",
+    "retry_of_case": 6,
+    "status": 200,
+    "reply": "您好，您提供的已使用次數（-1次）不符合有效數值範圍（必須大於或等於 0）。\n\n請問您今天實際已使用的次數大約是多少呢？請提供正確的已用次數，我將會為您計算剩餘的請求次數。（此為教學示範模擬試算）",
+    "tool_traces": []
+  }
+]
