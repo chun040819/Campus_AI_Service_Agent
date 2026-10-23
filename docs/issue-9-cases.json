@@ -1,0 +1,16 @@
+[
+  {"id":"Q01","category":"existing","question":"API Key 怎麼申請？","stages":[["search_help_articles"]],"content_check":"H01；模擬流程，不代建或索取金鑰"},
+  {"id":"Q02","category":"existing","question":"如何使用 OpenAI SDK 連接？","stages":[["search_help_articles"]],"content_check":"H02；端點尚未配置，不虛構可用網址"},
+  {"id":"Q03","category":"existing","question":"429 代表什麼？","stages":[["search_help_articles"]],"content_check":"H03；不可一律判每日額度耗盡"},
+  {"id":"Q04","category":"existing","question":"學生每日使用額度？","stages":[["search_help_articles"]],"content_check":"H04，20次/day，模擬政策"},
+  {"id":"Q05","category":"existing","question":"INC-001 處理到哪？","stages":[["search_issue_records"]],"content_check":"INC-001 investigating、available=false、最後更新時間、模擬標示"},
+  {"id":"Q06","category":"existing","question":"之前有類似 429 的故障嗎？","stages":[["search_issue_records"]],"content_check":"INC-004 resolved、更新時間，不當成目前真實故障"},
+  {"id":"Q07","category":"calculation","question":"假設每日20次，今天已用8次，還剩多少？","stages":[["calculate_remaining_requests"]],"content_check":"user_assumption、20/8/day、remaining=12、sendable_now=12次；模擬非實際餘額"},
+  {"id":"Q08","category":"calculation","question":"依學生模擬政策，今天已用8次，這一分鐘已用4次，現在還能送幾次？請列來源、各限制與用量。","stages":[["search_help_articles"],["calculate_remaining_requests"]],"content_check":"先取得H04與H06，再以help_article計算；20/8/day剩12、5/4/minute剩1、sendable_now=1次；模擬試算"},
+  {"id":"Q09","category":"calculation","question":"假設每日20次，今天已用21次，還剩多少？","stages":[["calculate_remaining_requests"]],"content_check":"user_assumption，remaining=0、over_limit=true、sendable_now=0次；模擬試算"},
+  {"id":"Q10","category":"missing","question":"查 INC-999 的處理進度","stages":[["search_issue_records"]],"content_check":"NOT_FOUND，目前示範資料未收錄，不補造紀錄或階段"},
+  {"id":"Q11","category":"missing","question":"查詢不存在的火星校區政策","stages":[["search_help_articles"]],"content_check":"NOT_FOUND，示範資料未收錄，不補造政策"},
+  {"id":"Q12","category":"support","question":"請給我人工支援指引","stages":[["get_human_support"]],"content_check":"H08，管道未配置、未交接，不虛構聯絡方式"},
+  {"id":"Q13","category":"out_of_scope","question":"幫我寫日本旅遊行程","stages":[],"content_check":"只婉拒並說明客服範圍，不產生行程"},
+  {"id":"Q14","category":"out_of_scope","question":"Write a poem about the moon.","stages":[],"content_check":"英文婉拒，不產生詩歌"}
+]

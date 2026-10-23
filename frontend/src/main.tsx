@@ -46,7 +46,7 @@ function App() {
     <section className="workspace" aria-label="客服對話">
       <div className="chat">
         <div className="toolbar"><h2>資訊諮詢</h2><button disabled={busy} onClick={reset}>清除對話</button></div>
-        {turns.length === 0 && <div className="welcome"><h3>想了解哪一項服務？</h3><p>目前可查詢操作指引、模擬政策與公開模擬故障紀錄。請勿輸入金鑰或個人資料。</p><div className="examples">{['API Key 怎麼申請？', '429 代表什麼？', 'INC-001 處理到哪？'].map(text => <button key={text} onClick={() => setMessage(text)}>{text}</button>)}</div></div>}
+        {turns.length === 0 && <div className="welcome"><h3>想了解哪一項服務？</h3><p>可查操作指引、模擬政策與公開模擬故障，依你提供的用量試算剩餘請求次數，或取得人工支援指引。人工管道尚未配置，不建立工單或完成真人交接。請勿輸入金鑰或個人資料。</p><div className="examples">{['API Key 怎麼申請？', '429 代表什麼？', 'INC-001 處理到哪？', '假設每日20次，今天已用8次，還剩多少？', '一直無法登入，想找人工'].map(text => <button disabled={busy} key={text} onClick={() => setMessage(text)}>{text}</button>)}</div></div>}
         <div aria-live="polite">{turns.map((turn, index) => <article key={index}><p className="question">{turn.question}</p><p className="reply">{turn.reply}</p></article>)}</div>
         {error && <p role="alert" className="error">{error}</p>}
         <form onSubmit={send}><label htmlFor="message">你的問題</label><textarea id="message" value={message} maxLength={4000} disabled={busy} onChange={event => setMessage(event.target.value)} placeholder="例如：如何使用 OpenAI SDK 連接？" required/><button className="send" disabled={busy || !message.trim()}>{busy ? '處理中…' : '送出問題'}</button></form>
