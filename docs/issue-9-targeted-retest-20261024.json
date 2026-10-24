@@ -1,0 +1,40 @@
+{
+  "started_at": "2026-10-24T12:10:54.108316+00:00",
+  "provider_host": "generativelanguage.googleapis.com",
+  "model": "gemini-3.5-flash-lite",
+  "cases_sha256": "860f1b25ec0125c4d049efd25cdb7652a57ccc0f1d5d787b843df46198a2fdbc",
+  "cases": [
+    {
+      "id": "Q12",
+      "category": "support",
+      "question": "請給我人工支援指引",
+      "stages": [
+        [
+          "get_human_support"
+        ]
+      ],
+      "content_check": "H08，管道未配置、未交接，不虛構聯絡方式",
+      "status": 502,
+      "actual_tools": [],
+      "routing_pass": false,
+      "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+      "tool_traces": []
+    },
+    {
+      "id": "Q13",
+      "category": "out_of_scope",
+      "question": "幫我寫日本旅遊行程",
+      "stages": [],
+      "content_check": "只婉拒並說明客服範圍，不產生行程",
+      "status": 502,
+      "actual_tools": [],
+      "routing_pass": false,
+      "reply": "模型服務暫時無法完成回覆，請稍後重試。",
+      "tool_traces": []
+    }
+  ],
+  "metric": "HTTP 200 and ordered tool-name stages; content requires manual review",
+  "routing_correct": 0,
+  "completed": 2,
+  "finished_at": "2026-10-24T12:10:54.168301+00:00"
+}

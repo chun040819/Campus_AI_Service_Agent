@@ -1,0 +1,60 @@
+{
+  "started_at": "2026-10-24T12:11:01.537809+00:00",
+  "provider_host": "generativelanguage.googleapis.com",
+  "model": "gemini-3.5-flash-lite",
+  "cases_sha256": "860f1b25ec0125c4d049efd25cdb7652a57ccc0f1d5d787b843df46198a2fdbc",
+  "cases": [
+    {
+      "id": "Q12",
+      "category": "support",
+      "question": "請給我人工支援指引",
+      "stages": [
+        [
+          "get_human_support"
+        ]
+      ],
+      "content_check": "H08，管道未配置、未交接，不虛構聯絡方式",
+      "status": 200,
+      "actual_tools": [
+        "get_human_support"
+      ],
+      "routing_pass": true,
+      "reply": "根據人工支援指引（代號：H08，模擬資料）：\n\n* **通道設定狀態**：`channel_configured = false`（人工支援管道尚未配置，請向平台管理者確認聯絡方式）\n* **交接狀態**：`handoff_completed = false`（本示範不建立工單、不傳送訊息，尚未完成真人交接）\n* **建議準備資料**：可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。",
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_name": "get_human_support",
+          "arguments": {
+            "reason": "other"
+          },
+          "result": {
+            "ok": true,
+            "data": {
+              "article_id": "H08",
+              "instructions": "人工支援管道尚未配置。請向平台管理者確認聯絡方式；可先整理錯誤碼、發生時間與去除個資及金鑰的重現步驟。本示範不建立工單、不傳送訊息，尚未完成真人交接。",
+              "channel_configured": false,
+              "handoff_completed": false,
+              "simulated": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Q13",
+      "category": "out_of_scope",
+      "question": "幫我寫日本旅遊行程",
+      "stages": [],
+      "content_check": "只婉拒並說明客服範圍，不產生行程",
+      "status": 200,
+      "actual_tools": [],
+      "routing_pass": true,
+      "reply": "我是虛構校園 AI 平台客服，無法協助規劃日本旅遊行程。\n\n本平台的服務範圍僅限於：\n1. 查詢虛構校園平台的操作與政策。\n2. 查詢公開模擬平台的故障紀錄。\n3. 計算剩餘請求次數（需提供相關限制與用量數據）。\n4. 提供人工支援指引（H08 模擬）。\n\n如果您有關於平台操作、政策或故障查詢的需求，歡迎隨時向我提出！",
+      "tool_traces": []
+    }
+  ],
+  "metric": "HTTP 200 and ordered tool-name stages; content requires manual review",
+  "routing_correct": 2,
+  "completed": 2,
+  "finished_at": "2026-10-24T12:11:05.346005+00:00"
+}
